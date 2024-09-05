@@ -22,6 +22,6 @@ To configure your Firebase project data:
 To execute the tests, run:
 
 ```bash
-yarn playwright
+yarn playwright test
 ```
 
