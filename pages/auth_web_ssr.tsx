@@ -19,11 +19,12 @@ import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 import { testAuth, TestAuthResult } from '../lib/auth_test';
 
 export const getServerSideProps = (async () => {
-  const testAuthResult : TestAuthResult = await testAuth();
+  const testAuthResult : TestAuthResult = await testAuth(/*isServerAuth=*/true);
   return {  props: { testAuthResult } }
 }) satisfies GetServerSideProps<{ testAuthResult: TestAuthResult }>
 
 export default function Page({ testAuthResult }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  console.log("getServerAppUserResult: ", testAuthResult.getServerAppUserResult);
   return (
     <>
       <Head>
@@ -32,11 +33,15 @@ export default function Page({ testAuthResult }: InferGetServerSidePropsType<typ
       </Head>
       <h1>Auth SSR Test results:</h1>
       <h2 title="testStatus">Tests Complete!</h2>
-      <h3 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h3>
-      <h3 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h3>
-      <h3 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h3>
-      <h3 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h3>
-      <h3 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h3>
+      <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
+      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
+      <h4 title="initializeServerAppResult">initializeServerAppResult: {testAuthResult.initializeServerAppResult}</h4>
+      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testAuthResult.getAuthServerAppResult}</h4>
+      <h4 title="getServerAppUserResult">getServerAppUserResult: {testAuthResult.getServerAppUserResult}</h4>
+      <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
+      <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
     </>
   );
 }

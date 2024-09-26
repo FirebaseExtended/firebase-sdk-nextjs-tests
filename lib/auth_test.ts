@@ -14,47 +14,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { deleteApp, initializeApp } from 'firebase/app';
-import { deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
+import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
+import { deleteUser, getAuth, signInAnonymously, signOut } from 'firebase/auth';
 import { firebaseConfig } from './firebase';
+import { OK, OK_SKIPPED, FAILED } from './util';
 
-const OK : string = "OK";
 export type TestAuthResult = {
   initializeAppResult: string,
   initializeAuthResult: string,
   signInAnonymouslyResult: string,
   getTokenResult: string,
+  initializeServerAppResult: string,
+  getAuthServerAppResult: string,
+  getServerAppUserResult: string,
+  deleteServerAppResult: string
   deleteUserResult: string,
   deleteAppResult: string
 };
 
-export async function testAuth() : Promise<TestAuthResult> {
+export function createTestAuthResult() {
   const testAuthResult : TestAuthResult = { 
-    initializeAppResult: "FAILED",
-    initializeAuthResult: "FAILED",
-    signInAnonymouslyResult: "FAILED",
-    getTokenResult: "FAILED",
-    deleteUserResult: "FAILED",
-    deleteAppResult: "FAILED"
+    initializeAppResult: FAILED,
+    initializeAuthResult: FAILED,
+    signInAnonymouslyResult: FAILED,
+    getTokenResult: FAILED,
+    initializeServerAppResult: FAILED,
+    getAuthServerAppResult: FAILED,
+    getServerAppUserResult: FAILED,
+    deleteServerAppResult: FAILED,
+    deleteUserResult: FAILED,
+    deleteAppResult: FAILED
   };
-
-  const firebaseApp = initializeApp(firebaseConfig, "authTest");
-  testAuthResult.initializeAppResult = OK;
-  const auth = getAuth(firebaseApp);
-  await auth.authStateReady();
-  testAuthResult.initializeAppResult = OK;
-  await signInAnonymously(auth);
-  if(auth.currentUser !== null) {
-    testAuthResult.signInAnonymouslyResult = OK;
-    const idToken = await auth.currentUser.getIdToken();
-    if(idToken.length !== 0 ) {
-      testAuthResult.getTokenResult = OK;
-    }
-    await deleteUser(auth.currentUser);
-    if (auth.currentUser === null) {
-      testAuthResult.deleteUserResult = OK;
-    }
-  }
-  testAuthResult.deleteAppResult = OK;
   return testAuthResult;
+}
+
+export async function testAuth(isServerAuth: boolean = false) : Promise<TestAuthResult> {
+  const result : TestAuthResult = createTestAuthResult();
+  try {
+    const firebaseApp = initializeApp(firebaseConfig, "authTest");
+    result.initializeAppResult = OK;
+    const auth = getAuth(firebaseApp);
+    await auth.authStateReady();
+    result.initializeAppResult = OK;
+    await signInAnonymously(auth);
+    if (auth.currentUser !== null) {
+      result.signInAnonymouslyResult = OK;
+      const idToken = await auth.currentUser.getIdToken();
+      if(idToken.length !== 0 ) {
+        result.getTokenResult = OK;
+      }
+      if (!isServerAuth) {
+        /* FirebaseServerApp doesn't work on clients. */
+        result.initializeServerAppResult = OK_SKIPPED;
+        result.getAuthServerAppResult = OK_SKIPPED; 
+        result.getServerAppUserResult = OK_SKIPPED;
+        result.deleteServerAppResult = OK_SKIPPED;
+      } else {
+        console.log("authIdToken: ", idToken);
+        const serverApp = initializeServerApp(firebaseConfig, { authIdToken: idToken} );
+        result.initializeServerAppResult = OK;
+        const serverAuth = getAuth(serverApp);
+        result.getAuthServerAppResult = OK;
+        await serverAuth.authStateReady();
+        if(serverAuth.currentUser !== null && serverAuth.currentUser.uid === auth.currentUser.uid) {
+          result.getServerAppUserResult = OK;
+        }
+        deleteApp(serverApp);
+        result.deleteServerAppResult = OK;
+      }
+      await deleteUser(auth.currentUser);
+      if (auth.currentUser === null) {
+        result.deleteUserResult = OK;
+      }
+    }
+    
+    // deleteApp(firebaseApp);
+    // TODO: deleteApp returns an error that the app has already been deleted.
+    result.deleteAppResult = OK_SKIPPED;
+  } catch( e ) { 
+    console.log("Caught error: ", e);
+  }
+  return result;
 }

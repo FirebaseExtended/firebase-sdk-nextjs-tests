@@ -16,23 +16,14 @@
  */
 import Head from 'next/head';
 import { useState, useEffect } from 'react'
-import { testAuth, TestAuthResult } from '../lib/auth_test';
+import { testAuth, createTestAuthResult } from '../lib/auth_test';
 
 export default function Page() {
-  const [initializeAppResult, setInitializeAppResult] = useState("FAILED");
-  const [signInAnonymouslyResult, setSignInAnonymouslyResult] = useState("FAILED");
-  const [getTokenResult, setGetTokenResult] = useState("FAILED");
-  const [deleteUserResult, setDeleteUserResult] = useState("FAILED");
-  const [deleteAppResult, setDeleteAppResult] = useState("FAILED");
   const [testStatus, setTestStatus] = useState ("running...");
+  const [testAuthResult, setTestAuthResult] = useState(  createTestAuthResult() );
   useEffect(() => { 
     const asyncTest = async () => {
-      const testAuthResult : TestAuthResult = await testAuth();
-      setInitializeAppResult(testAuthResult.initializeAppResult);
-      setSignInAnonymouslyResult(testAuthResult.signInAnonymouslyResult);
-      setGetTokenResult(testAuthResult.getTokenResult);
-      setDeleteUserResult(testAuthResult.deleteUserResult);
-      setDeleteAppResult(testAuthResult.deleteAppResult);
+      setTestAuthResult(await testAuth());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => { 
@@ -48,11 +39,15 @@ export default function Page() {
       </Head>
       <h1>Auth CSR Test results:</h1>
       <h2 title="testStatus">Tests {testStatus}</h2>
-      <h3 title="initializeAppResult">initializeAppResult: {initializeAppResult}</h3>
-      <h3 title="signInAnonymouslyResult">signInAnonymouslyResult: {signInAnonymouslyResult}</h3>
-      <h3 title="getTokenResult">getTokenResult: {getTokenResult}</h3>
-      <h3 title="deleteUserResult">deleteUserResult: {deleteUserResult}</h3>
-      <h3 title="deleteAppResult">deleteAppResult: {deleteAppResult}</h3>
+      <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
+      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
+      <h4 title="initializeServerAppResult">initializeServerAppResult: {testAuthResult.initializeServerAppResult}</h4>
+      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testAuthResult.getAuthServerAppResult}</h4>
+      <h4 title="getServerAppUserResult">getServerAppUserResult: {testAuthResult.getServerAppUserResult}</h4>
+      <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
+      <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
     </>
   );
 }
