@@ -14,26 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Link from 'next/link';
-import { testAuth, TestAuthResult } from '../../../../lib/auth_test';
+import { testAuth, TestAuthResult } from '../lib/auth_test';
+import AuthResultsDisplay from '../components/auth_results_display';
 
 export default async function Page() {
   const testAuthResult: TestAuthResult = await testAuth(/*isServerAuth=*/true);
   return (
     <>
       <h1>Auth SSR Test results:</h1>
-      <h2 title="testStatus">Tests Complete!</h2>
-      <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
-      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
-      <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
-      <h4 title="initializeServerAppResult">initializeServerAppResult: {testAuthResult.initializeServerAppResult}</h4>
-      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testAuthResult.getAuthServerAppResult}</h4>
-      <h4 title="getServerAppUserResult">getServerAppUserResult: {testAuthResult.getServerAppUserResult}</h4>
-      <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
-      <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
-      <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
-      <p />
-      <Link href="/">Back to test index</Link>
+      <AuthResultsDisplay statusString='Tests Complete!' testAuthResult={testAuthResult} />
     </>
   );
 }

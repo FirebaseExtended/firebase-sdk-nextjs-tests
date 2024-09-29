@@ -14,28 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-'use client'
-
-import { useState, useEffect } from 'react'
-import { testAuth, createTestAuthResult } from '../../../../lib/auth_test';
-
-export default function ClientResults() {
-  const [testStatus, setTestStatus] = useState("running...");
-  const [testAuthResult, setTestAuthResult] = useState(createTestAuthResult());
-  useEffect(() => {
-    const asyncTest = async () => {
-      setTestAuthResult(await testAuth());
-      setTestStatus("Complete!");
-    }
-    asyncTest().catch((e) => {
-      console.error("Error encountered during testing: ", e);
-      setTestStatus("Errored!");
-    });
-  }, []);
-
+import Link from 'next/link';
+export default function AuthResultsDisplay({ statusString, testAuthResult }) {
   return (
     <>
-      <h2 title="testStatus">Tests {testStatus}</h2>
+      <h2 title="testStatus">Tests {statusString}</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
       <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
       <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
@@ -45,6 +28,8 @@ export default function ClientResults() {
       <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
       <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
       <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
+      <p />
+      <Link href="/">Back to test index</Link>
     </>
   );
 }
