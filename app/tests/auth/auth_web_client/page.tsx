@@ -14,7 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import Link from 'next/link';
+import ClientResults from './client_results';
+import type { Metadata } from 'next'
 
-export const OK: string = "OK";
-export const OK_SKIPPED: string = "OK - SKIPPED";
-export const FAILED: string = "FAILED";
+export const metadata: Metadata = {
+  title: 'Auth Web SDK CSR test',
+}
+
+export default function Page() {
+  return (
+    <>
+      <h1>Auth CSR Test results:</h1>
+      <ClientResults/>
+      <p/>
+      <Link href="/">Back to test index</Link>
+    </>
+  );
+}

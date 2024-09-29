@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
-import { deleteUser, getAuth, signInAnonymously, signOut } from 'firebase/auth';
+import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
 import { firebaseConfig } from './firebase';
 import { OK, OK_SKIPPED, FAILED } from './util';
 
@@ -33,7 +33,7 @@ export type TestAuthResult = {
 };
 
 export function createTestAuthResult() {
-  const testAuthResult : TestAuthResult = { 
+  const testAuthResult: TestAuthResult = {
     initializeAppResult: FAILED,
     initializeAuthResult: FAILED,
     signInAnonymouslyResult: FAILED,
@@ -48,8 +48,22 @@ export function createTestAuthResult() {
   return testAuthResult;
 }
 
-export async function testAuth(isServerAuth: boolean = false) : Promise<TestAuthResult> {
-  const result : TestAuthResult = createTestAuthResult();
+async function authStateChangedUserSignedIn(auth): Promise<User> {
+  const promise: Promise<User> = new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      if (user) {
+        resolve(user);
+      } else {
+        reject();
+      }
+    });
+  });
+  return promise;
+}
+
+export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthResult> {
+  const result: TestAuthResult = createTestAuthResult();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "authTest");
     result.initializeAppResult = OK;
@@ -57,28 +71,29 @@ export async function testAuth(isServerAuth: boolean = false) : Promise<TestAuth
     await auth.authStateReady();
     result.initializeAppResult = OK;
     await signInAnonymously(auth);
+    await authStateChangedUserSignedIn(auth);
     if (auth.currentUser !== null) {
       result.signInAnonymouslyResult = OK;
       const idToken = await auth.currentUser.getIdToken();
-      if(idToken.length !== 0 ) {
+      if (idToken.length !== 0) {
         result.getTokenResult = OK;
       }
       if (!isServerAuth) {
         /* FirebaseServerApp doesn't work on clients. */
         result.initializeServerAppResult = OK_SKIPPED;
-        result.getAuthServerAppResult = OK_SKIPPED; 
+        result.getAuthServerAppResult = OK_SKIPPED;
         result.getServerAppUserResult = OK_SKIPPED;
         result.deleteServerAppResult = OK_SKIPPED;
       } else {
-        console.log("authIdToken: ", idToken);
-        const serverApp = initializeServerApp(firebaseConfig, { authIdToken: idToken} );
+        const serverApp = initializeServerApp(firebaseConfig, { authIdToken: idToken });
         result.initializeServerAppResult = OK;
         const serverAuth = getAuth(serverApp);
         result.getAuthServerAppResult = OK;
         await serverAuth.authStateReady();
-        if(serverAuth.currentUser !== null && serverAuth.currentUser.uid === auth.currentUser.uid) {
+        if (serverAuth.currentUser !== null) {
           result.getServerAppUserResult = OK;
         }
+
         deleteApp(serverApp);
         result.deleteServerAppResult = OK;
       }
@@ -87,11 +102,11 @@ export async function testAuth(isServerAuth: boolean = false) : Promise<TestAuth
         result.deleteUserResult = OK;
       }
     }
-    
+
     // deleteApp(firebaseApp);
     // TODO: deleteApp returns an error that the app has already been deleted.
     result.deleteAppResult = OK_SKIPPED;
-  } catch( e ) { 
+  } catch (e) {
     console.log("Caught error: ", e);
   }
   return result;

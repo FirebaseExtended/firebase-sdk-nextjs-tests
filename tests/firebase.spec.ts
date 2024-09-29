@@ -16,13 +16,13 @@
  */
 import { test, expect } from '@playwright/test';
 
-// Run tests in serial.
+// Run tests in serial to avoid Auth user conflicts.
 test.describe.configure({ mode: 'serial' });
 
 test.afterEach(async ({ page, baseURL }) => { });
 test.beforeEach(async ({ page, baseURL }) => { });
 
-async function commonExpectations( page ) {
+async function commonExpectations(page) {
   await expect(page.getByTitle('initializeAppResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('signInAnonymouslyResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('getTokenResult')).not.toContainText("FAILED");
@@ -31,19 +31,19 @@ async function commonExpectations( page ) {
   await expect(page.getByTitle('getServerAppUserResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteServerAppResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteUserResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");    
+  await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
 }
 
 test('auth operations should pass - client', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/auth_web`);
-  await expect(page.getByTitle('testStatus')).toContainText('Complete', {timeout: 10000 });
+  await page.goto(`${baseURL}/tests/auth/auth_web_client`);
+  await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
   await expect(page.locator('h1')).toContainText('Auth CSR Test');
   await commonExpectations(page);
 });
 
 test('auth operations should pass - server', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/auth_web_ssr`);
-  await expect(page.getByTitle('testStatus')).toContainText('Complete', {timeout: 10000 });
+  await page.goto(`${baseURL}/tests/auth/auth_web_ssr`);
+  await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
   await expect(page.locator('h1')).toContainText('Auth SSR Test');
-  await commonExpectations(page);   
+  await commonExpectations(page);
 });

@@ -14,23 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Head from 'next/head';
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
-import { testAuth, TestAuthResult } from '../lib/auth_test';
+import Link from 'next/link';
+import { testAuth, TestAuthResult } from '../../../../lib/auth_test';
 
-export const getServerSideProps = (async () => {
-  const testAuthResult : TestAuthResult = await testAuth(/*isServerAuth=*/true);
-  return {  props: { testAuthResult } }
-}) satisfies GetServerSideProps<{ testAuthResult: TestAuthResult }>
-
-export default function Page({ testAuthResult }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  console.log("getServerAppUserResult: ", testAuthResult.getServerAppUserResult);
+export default async function Page() {
+  const testAuthResult: TestAuthResult = await testAuth(/*isServerAuth=*/true);
   return (
     <>
-      <Head>
-        <title>Auth SSR test</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
       <h1>Auth SSR Test results:</h1>
       <h2 title="testStatus">Tests Complete!</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
@@ -42,6 +32,8 @@ export default function Page({ testAuthResult }: InferGetServerSidePropsType<typ
       <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
       <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
       <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
+      <p />
+      <Link href="/">Back to test index</Link>
     </>
   );
 }

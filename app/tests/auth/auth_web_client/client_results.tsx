@@ -14,30 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Head from 'next/head';
-import { useState, useEffect } from 'react'
-import { testAuth, createTestAuthResult } from '../lib/auth_test';
+'use client'
 
-export default function Page() {
-  const [testStatus, setTestStatus] = useState ("running...");
-  const [testAuthResult, setTestAuthResult] = useState(  createTestAuthResult() );
-  useEffect(() => { 
+import { useState, useEffect } from 'react'
+import { testAuth, createTestAuthResult } from '../../../../lib/auth_test';
+
+export default function ClientResults() {
+  const [testStatus, setTestStatus] = useState("running...");
+  const [testAuthResult, setTestAuthResult] = useState(createTestAuthResult());
+  useEffect(() => {
     const asyncTest = async () => {
       setTestAuthResult(await testAuth());
       setTestStatus("Complete!");
     }
-    asyncTest().catch((e) => { 
-      console.error("Error encountered during testing: ", e );
+    asyncTest().catch((e) => {
+      console.error("Error encountered during testing: ", e);
+      setTestStatus("Errored!");
     });
   }, []);
 
   return (
     <>
-      <Head>
-        <title>Auth CSR Test</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-      </Head>
-      <h1>Auth CSR Test results:</h1>
       <h2 title="testStatus">Tests {testStatus}</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
       <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>

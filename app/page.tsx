@@ -14,7 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import Link from 'next/link';
 
-export const OK: string = "OK";
-export const OK_SKIPPED: string = "OK - SKIPPED";
-export const FAILED: string = "FAILED";
+export default async function Page() {
+  return (
+    <>
+      <h1>How to test</h1>
+      <h2>Run `yarn playwright test` to execute the automatic test suite.</h2>
+      <p />
+      <h2>Tests pages: </h2>
+      <ul>
+        <li><Link href="/tests/auth/auth_web_client">Auth Web SDK client-side tests</Link></li>
+        <li><Link href="/tests/auth/auth_web_ssr">Auth Web SDK server-side tests</Link></li>
+      </ul>
+    </>
+  );
+}
