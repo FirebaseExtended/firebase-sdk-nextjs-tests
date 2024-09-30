@@ -14,8 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
 import { testAuth, TestAuthResult } from '../lib/auth_test';
 import AuthResultsDisplay from '../components/auth_results_display';
+
+export const metadata: Metadata = {
+  title: 'Auth Web SDK SSR test'
+}
 
 export default async function Page() {
   const testAuthResult: TestAuthResult = await testAuth(/*isServerAuth=*/true);

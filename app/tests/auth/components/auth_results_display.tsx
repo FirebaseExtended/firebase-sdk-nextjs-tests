@@ -18,8 +18,9 @@ import Link from 'next/link';
 export default function AuthResultsDisplay({ statusString, testAuthResult }) {
   return (
     <>
-      <h2 title="testStatus">Tests {statusString}</h2>
+      <h2 title="testStatus">{statusString}</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
+      <h4 title="initializeAuthResult">initializeAuthResult: {testAuthResult.initializeAuthResult}</h4>
       <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
       <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
       <h4 title="initializeServerAppResult">initializeServerAppResult: {testAuthResult.initializeServerAppResult}</h4>

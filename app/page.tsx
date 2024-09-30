@@ -19,13 +19,22 @@ import Link from 'next/link';
 export default async function Page() {
   return (
     <>
-      <h1>How to test</h1>
-      <h2>Run `yarn playwright test` to execute the automatic test suite.</h2>
+      <h1>Firebase JS SDK Next.js tests</h1>
+      <h2>Auto test:</h2>
+      <p>Run <b><code>yarn test</code></b> or <b><code>npm run test</code></b> to execute the automatic test suite.</p>
       <p />
-      <h2>Tests pages: </h2>
+      <h2>Manually test:</h2>
       <ul>
-        <li><Link href="/tests/auth/auth_web_client">Auth Web SDK client-side tests</Link></li>
-        <li><Link href="/tests/auth/auth_web_ssr">Auth Web SDK server-side tests</Link></li>
+        <li>App</li>
+        <ul>
+          <li><Link href="/tests/app/app_web_client">App Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/app/app_web_ssr">App Web SDK server-side tests</Link></li>
+        </ul>
+        <li>Auth</li>
+        <ul>
+          <li><Link href="/tests/auth/auth_web_client">Auth Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/auth/auth_web_ssr">Auth Web SDK server-side tests</Link></li>
+        </ul>
       </ul>
     </>
   );

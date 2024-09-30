@@ -32,7 +32,7 @@ export type TestAuthResult = {
   deleteAppResult: string
 };
 
-export function createTestAuthResult() {
+export function createTestAuthResult(): TestAuthResult {
   const testAuthResult: TestAuthResult = {
     initializeAppResult: FAILED,
     initializeAuthResult: FAILED,
@@ -69,7 +69,7 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
     result.initializeAppResult = OK;
     const auth = getAuth(firebaseApp);
     await auth.authStateReady();
-    result.initializeAppResult = OK;
+    result.initializeAuthResult = OK;
     await signInAnonymously(auth);
     await authStateChangedUserSignedIn(auth);
     if (auth.currentUser !== null) {
@@ -103,9 +103,11 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
       }
     }
 
-    // deleteApp(firebaseApp);
     // TODO: deleteApp returns an error that the app has already been deleted.
+    // This seems to occur only in CSR.
+    // deleteApp(firebaseApp);
     result.deleteAppResult = OK_SKIPPED;
+    
   } catch (e) {
     console.log("Caught error: ", e);
   }
