@@ -37,7 +37,7 @@ export function createTestAppResult(): TestAppResult {
   return testAppResult;
 }
 
-export async function testApp(isServerApp: boolean = false): Promise<TestAppResult> {
+export async function testApp(isServer: boolean = false): Promise<TestAppResult> {
   const result: TestAppResult = createTestAppResult();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "appTest");
@@ -50,7 +50,7 @@ export async function testApp(isServerApp: boolean = false): Promise<TestAppResu
       deleteApp(firebaseApp);
       result.deleteAppResult = OK;
     }
-    if (!isServerApp) {
+    if (!isServer) {
       result.initializeServerAppResult = OK_SKIPPED;
       result.deleteServerAppResult = OK_SKIPPED;
     } else {

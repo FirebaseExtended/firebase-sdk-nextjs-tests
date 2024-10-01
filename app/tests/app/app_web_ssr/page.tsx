@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const testAppResult: TestAppResult = await testApp(/*isServerAuth=*/true);
+  const testAppResult: TestAppResult = await testApp(/*isServer*/true);
   return (
     <>
       <h1>App SSR Test results:</h1>

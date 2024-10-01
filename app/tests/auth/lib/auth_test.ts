@@ -62,7 +62,7 @@ async function authStateChangedUserSignedIn(auth): Promise<User> {
   return promise;
 }
 
-export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthResult> {
+export async function testAuth(isServer: boolean = false): Promise<TestAuthResult> {
   const result: TestAuthResult = createTestAuthResult();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "authTest");
@@ -78,7 +78,7 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
       if (idToken.length !== 0) {
         result.getTokenResult = OK;
       }
-      if (!isServerAuth) {
+      if (!isServer) {
         /* FirebaseServerApp doesn't work on clients. */
         result.initializeServerAppResult = OK_SKIPPED;
         result.getAuthServerAppResult = OK_SKIPPED;
@@ -107,7 +107,7 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
     // This seems to occur only in CSR.
     // deleteApp(firebaseApp);
     result.deleteAppResult = OK_SKIPPED;
-    
+
   } catch (e) {
     console.log("Caught error: ", e);
   }
