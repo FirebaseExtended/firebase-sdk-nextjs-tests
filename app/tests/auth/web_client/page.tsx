@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testAuth, TestAuthResult } from '../lib/auth_test';
-import AuthResultsDisplay from '../components/auth_results_display';
+import CSRTestRunner from '../components/csr_test_runner';
 
 export const metadata: Metadata = {
-  title: 'Auth Web SDK SSR test'
+  title: 'Auth Web SDK CSR test'
 }
 
-export default async function Page() {
-  const testAuthResult: TestAuthResult = await testAuth(/*isServer=*/true);
+export default function Page() {
   return (
     <>
-      <h1>Auth SSR Test results:</h1>
-      <AuthResultsDisplay statusString='Tests Complete!' testAuthResult={testAuthResult} />
+      <h1>Auth CSR Test results:</h1>
+      <CSRTestRunner />
     </>
   );
 }

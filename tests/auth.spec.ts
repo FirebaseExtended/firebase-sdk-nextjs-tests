@@ -30,14 +30,14 @@ async function commonExpectations(page) {
 }
 
 test('auth operations should pass - client', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/auth_web_client`);
+  await page.goto(`${baseURL}/tests/auth/web_client`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
   await expect(page.locator('h1')).toContainText('Auth CSR Test');
   await commonExpectations(page);
 });
 
 test('auth operations should pass - server', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/auth_web_ssr`);
+  await page.goto(`${baseURL}/tests/auth/web_ssr`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
   await expect(page.locator('h1')).toContainText('Auth SSR Test');
   await commonExpectations(page);

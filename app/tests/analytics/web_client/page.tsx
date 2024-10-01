@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testApp, TestAnalyticsResult } from '../lib/analytics_test';
-import AnalyticsResultsDisplay from '../components/analytics_results_display';
+import ClientResults from '../components/csr_test_runner';
 
 export const metadata: Metadata = {
-  title: 'Analytics Web SDK SSR test'
+  title: 'Analytics Web SDK CSR test'
 }
 
-export default async function Page() {
-  const testAppResult: TestAnalyticsResult = await testApp(/*isServer=*/true);
+export default function Page() {
   return (
     <>
-      <h1>Analytics SSR Test results:</h1>
-      <AnalyticsResultsDisplay statusString='Tests Complete!' testAppResult={testAppResult} />
+      <h1>Analytics CSR Test results:</h1>
+      <ClientResults />
     </>
   );
 }

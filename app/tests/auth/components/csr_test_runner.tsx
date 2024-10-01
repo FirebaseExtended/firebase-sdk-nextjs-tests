@@ -17,15 +17,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testApp, createAnalyticsTestResult } from '../lib/analytics_test';
-import AnalyticsResultsDisplay from './analytics_results_display';
+import { testAuth, createTestAuthResult } from '../lib/test';
+import ResultsDisplay from './results_display';
 
-export default function ClientResults() {
+export default function CsrTestRunner() {
   const [testStatus, setTestStatus] = useState<string>("running...");
-  const [testAnalyticsResult, setTestAnalyticsResult] = useState(createAnalyticsTestResult());
+  const [testAuthResult, setTestAuthResult] = useState(createTestAuthResult());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestAnalyticsResult(await testApp());
+      setTestAuthResult(await testAuth());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {
@@ -35,6 +35,6 @@ export default function ClientResults() {
   }, []);
 
   return (
-    <AnalyticsResultsDisplay statusString={testStatus} testAppResult={testAnalyticsResult} />
+      <ResultsDisplay statusString={testStatus} testAuthResult={testAuthResult} />
   );
 }
