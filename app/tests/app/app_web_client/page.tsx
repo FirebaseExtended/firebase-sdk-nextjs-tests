@@ -18,13 +18,13 @@ import type { Metadata } from 'next'
 import ClientResults from '../components/client_results';
 
 export const metadata: Metadata = {
-  title: 'Auth Web SDK CSR test'
+  title: 'App Web SDK CSR test'
 }
 
 export default function Page() {
   return (
     <>
-      <h1>Auth CSR Test results:</h1>
+      <h1>App CSR Test results:</h1>
       <ClientResults />
     </>
   );

@@ -16,8 +16,8 @@
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
 import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
-import { firebaseConfig } from '../../../../lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from '../../../../lib/util';
+import { firebaseConfig } from 'lib/firebase';
+import { OK, OK_SKIPPED, FAILED } from 'lib/util';
 
 export type TestAuthResult = {
   initializeAppResult: string,
@@ -32,7 +32,7 @@ export type TestAuthResult = {
   deleteAppResult: string
 };
 
-export function createTestAuthResult() {
+export function createTestAuthResult(): TestAuthResult {
   const testAuthResult: TestAuthResult = {
     initializeAppResult: FAILED,
     initializeAuthResult: FAILED,
@@ -62,14 +62,14 @@ async function authStateChangedUserSignedIn(auth): Promise<User> {
   return promise;
 }
 
-export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthResult> {
+export async function testAuth(isServer: boolean = false): Promise<TestAuthResult> {
   const result: TestAuthResult = createTestAuthResult();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "authTest");
     result.initializeAppResult = OK;
     const auth = getAuth(firebaseApp);
     await auth.authStateReady();
-    result.initializeAppResult = OK;
+    result.initializeAuthResult = OK;
     await signInAnonymously(auth);
     await authStateChangedUserSignedIn(auth);
     if (auth.currentUser !== null) {
@@ -78,7 +78,7 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
       if (idToken.length !== 0) {
         result.getTokenResult = OK;
       }
-      if (!isServerAuth) {
+      if (!isServer) {
         /* FirebaseServerApp doesn't work on clients. */
         result.initializeServerAppResult = OK_SKIPPED;
         result.getAuthServerAppResult = OK_SKIPPED;
@@ -103,9 +103,11 @@ export async function testAuth(isServerAuth: boolean = false): Promise<TestAuthR
       }
     }
 
-    // deleteApp(firebaseApp);
     // TODO: deleteApp returns an error that the app has already been deleted.
+    // This seems to occur only in CSR.
+    // deleteApp(firebaseApp);
     result.deleteAppResult = OK_SKIPPED;
+
   } catch (e) {
     console.log("Caught error: ", e);
   }
