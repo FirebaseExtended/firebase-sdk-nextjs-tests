@@ -14,10 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
+import { testApp, TestAnalyticsResult } from '../lib/analytics_test';
+import AnalyticsResultsDisplay from '../components/analytics_results_display';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
+export const metadata: Metadata = {
+  title: 'Analytics Web SDK SSR test'
 }
 
-module.exports = nextConfig
+export default async function Page() {
+  const testAnalyticsResult: TestAnalyticsResult = await testApp(/*isServer=*/true);
+  return (
+    <>
+      <h1>Analytics SSR Test results:</h1>
+      <AnalyticsResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
+    </>
+  );
+}

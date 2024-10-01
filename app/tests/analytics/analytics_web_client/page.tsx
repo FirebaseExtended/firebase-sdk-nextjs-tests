@@ -14,10 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
+import ClientResults from '../components/client_results';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: false,
+export const metadata: Metadata = {
+  title: 'Analytics Web SDK CSR test'
 }
 
-module.exports = nextConfig
+export default function Page() {
+  return (
+    <>
+      <h1>Analytics CSR Test results:</h1>
+      <ClientResults />
+    </>
+  );
+}
