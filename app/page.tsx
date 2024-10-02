@@ -25,15 +25,20 @@ export default async function Page() {
       <p />
       <h2>Manually test:</h2>
       <ul>
+        <li>Analytics</li>
+        <ul>
+          <li><Link href="/tests/analytics/web_client">Analytics Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/analytics/web_ssr">Analytics Web SDK server-side tests</Link></li>
+        </ul>
         <li>App</li>
         <ul>
-          <li><Link href="/tests/app/app_web_client">App Web SDK client-side tests</Link></li>
-          <li><Link href="/tests/app/app_web_ssr">App Web SDK server-side tests</Link></li>
+          <li><Link href="/tests/app/web_client">App Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/app/web_ssr">App Web SDK server-side tests</Link></li>
         </ul>
         <li>Auth</li>
         <ul>
-          <li><Link href="/tests/auth/auth_web_client">Auth Web SDK client-side tests</Link></li>
-          <li><Link href="/tests/auth/auth_web_ssr">Auth Web SDK server-side tests</Link></li>
+          <li><Link href="/tests/auth/web_client">Auth Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/auth/web_ssr">Auth Web SDK server-side tests</Link></li>
         </ul>
       </ul>
     </>

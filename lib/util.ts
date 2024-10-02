@@ -18,3 +18,7 @@
 export const OK: string = "OK";
 export const OK_SKIPPED: string = "OK - SKIPPED";
 export const FAILED: string = "FAILED";
+
+export async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

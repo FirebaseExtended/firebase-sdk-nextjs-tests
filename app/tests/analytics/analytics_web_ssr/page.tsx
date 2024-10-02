@@ -14,10 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
+import { testApp, TestAnalyticsResult } from '../lib/test';
+import ResultsDisplay from '../components/results_display';
 
-// App's Firebase configuration
-export const firebaseConfig = {
-  /* Paste project data here.
-   *  This will be stored as a GitHub secret when we have admin access to the repo.
-   */ 
-};
+export const metadata: Metadata = {
+  title: 'Analytics Web SDK SSR test'
+}
+
+export default async function Page() {
+  const testAnalyticsResult: TestAnalyticsResult = await testApp(/*isServer=*/true);
+  return (
+    <>
+      <h1>Analytics SSR Test results:</h1>
+      <ResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
+    </>
+  );
+}

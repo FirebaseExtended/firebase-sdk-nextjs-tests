@@ -14,10 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
+import CsrTestRunner from '../components/csr_test_runner';
 
-// App's Firebase configuration
-export const firebaseConfig = {
-  /* Paste project data here.
-   *  This will be stored as a GitHub secret when we have admin access to the repo.
-   */ 
-};
+export const metadata: Metadata = {
+  title: 'App Web SDK CSR test'
+}
+
+export default function Page() {
+  return (
+    <>
+      <h1>App CSR Test results:</h1>
+      <CsrTestRunner />
+    </>
+  );
+}

@@ -103,11 +103,8 @@ export async function testAuth(isServer: boolean = false): Promise<TestAuthResul
       }
     }
 
-    // TODO: deleteApp returns an error that the app has already been deleted.
-    // This seems to occur only in CSR.
-    // deleteApp(firebaseApp);
-    result.deleteAppResult = OK_SKIPPED;
-
+    deleteApp(firebaseApp);
+    result.deleteAppResult = OK;
   } catch (e) {
     console.log("Caught error: ", e);
   }

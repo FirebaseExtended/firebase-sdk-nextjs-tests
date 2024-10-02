@@ -18,27 +18,22 @@ import { test, expect } from '@playwright/test';
 
 async function commonExpectations(page) {
   await expect(page.getByTitle('initializeAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('initializeAuthResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('signInAnonymouslyResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getTokenResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('initializeServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getAuthServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getServerAppUserResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('deleteServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('deleteUserResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('isSupportedResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('isSupportedResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('logEventResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
 }
 
-test('auth operations should pass - client', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/web_client`);
+test('analytics operations should pass - client', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/analytics/web_client`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Auth CSR Test');
+  await expect(page.locator('h1')).toContainText('Analytics CSR Test');
   await commonExpectations(page);
 });
 
-test('auth operations should pass - server', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/web_ssr`);
+test('analytics operations should pass - server', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/analytics/web_ssr`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Auth SSR Test');
+  await expect(page.locator('h1')).toContainText('Analytics SSR Test');
   await commonExpectations(page);
 });

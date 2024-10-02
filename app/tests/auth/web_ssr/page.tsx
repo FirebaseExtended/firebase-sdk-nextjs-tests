@@ -14,10 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import type { Metadata } from 'next'
+import { testAuth, TestAuthResult } from '../lib/test';
+import ResultsDisplay from '../components/results_display';
 
-// App's Firebase configuration
-export const firebaseConfig = {
-  /* Paste project data here.
-   *  This will be stored as a GitHub secret when we have admin access to the repo.
-   */ 
-};
+export const metadata: Metadata = {
+  title: 'Auth Web SDK SSR test'
+}
+
+export default async function Page() {
+  const testAuthResult: TestAuthResult = await testAuth(/*isServer=*/true);
+  return (
+    <>
+      <h1>Auth SSR Test results:</h1>
+      <ResultsDisplay statusString='Tests Complete!' testAuthResult={testAuthResult} />
+    </>
+  );
+}

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Link from 'next/link';
-export default function AuthResultsDisplay({ statusString, testAuthResult }) {
+export default function ResultsDisplay({ statusString, testAuthResult }) {
   return (
     <>
       <h2 title="testStatus">{statusString}</h2>
