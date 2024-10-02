@@ -5,23 +5,35 @@ This repository contains automatic nightly tests that exercise the Firebase JS S
 
 ## Getting Started
 
+This project has be built and tested with `yarn` version `1.22.11`.
+
 First, install dependencies:
 
 ```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
+yarn
 ```
 
 To configure your Firebase project data:
 
-**TBD** 
+**TBD**
+
+As of now, add your firbase config data to `./lib/firebase.ts`.
+
+To build the test apps:
+
+```bash
+yarn build
+```
 
 To execute the tests, run:
 
 ```bash
-yarn playwright test
+yarn test
+```
+
+To run the tests on an app server for manual testing:
+
+```bash
+yarn dev
 ```
 
