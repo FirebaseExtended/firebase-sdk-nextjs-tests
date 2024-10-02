@@ -19,14 +19,14 @@ import { AppCheckToken, CustomProvider, initializeAppCheck, getToken } from 'fir
 import { firebaseConfig } from 'lib/firebase';
 import { OK, FAILED } from 'lib/util';
 
-export type TestAppCheckResult = {
+export type TestResults = {
   initializeAppResult: string,
   initializeAppCheckResult: string,
   getTokenResult: string,
   deleteAppResult: string
 };
 
-export function createAppCheckTestResult(): TestAppCheckResult {
+export function initializeTestResults(): TestResults {
   return {
     initializeAppResult: FAILED,
     initializeAppCheckResult: FAILED,
@@ -35,8 +35,8 @@ export function createAppCheckTestResult(): TestAppCheckResult {
   };
 }
 
-export async function testApp(): Promise<TestAppCheckResult> {
-  const result: TestAppCheckResult = createAppCheckTestResult();
+export async function testApp(): Promise<TestResults> {
+  const result: TestResults = initializeTestResults();
   try {
     const firebaseApp = initializeApp(firebaseConfig);
     if (initializeApp !== null) {

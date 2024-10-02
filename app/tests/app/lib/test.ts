@@ -18,7 +18,7 @@ import { getApp, deleteApp, initializeApp, initializeServerApp } from 'firebase/
 import { firebaseConfig } from 'lib/firebase';
 import { OK, OK_SKIPPED, FAILED } from 'lib/util';
 
-export type TestAppResult = {
+export type TestResults = {
   initializeAppResult: string,
   getAppResult: string,
   deleteAppResult: string,
@@ -26,19 +26,18 @@ export type TestAppResult = {
   deleteServerAppResult: string
 };
 
-export function createTestAppResult(): TestAppResult {
-  const testAppResult: TestAppResult = {
+export function initializeTestResults(): TestResults {
+  return {
     initializeAppResult: FAILED,
     getAppResult: FAILED,
     deleteAppResult: FAILED,
     initializeServerAppResult: FAILED,
     deleteServerAppResult: FAILED
   };
-  return testAppResult;
 }
 
-export async function testApp(isServer: boolean = false): Promise<TestAppResult> {
-  const result: TestAppResult = createTestAppResult();
+export async function testApp(isServer: boolean = false): Promise<TestResults> {
+  const result: TestResults = initializeTestResults();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "appTest");
     if (firebaseApp !== null) {

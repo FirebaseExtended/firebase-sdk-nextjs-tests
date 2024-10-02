@@ -17,15 +17,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testApp, createAnalyticsTestResult } from '../lib/test';
+import { testApp, initializeTestResults } from '../lib/test';
 import ResultsDisplay from './results_display';
 
 export default function ClientResults() {
   const [testStatus, setTestStatus] = useState<string>("running...");
-  const [testAnalyticsResult, setTestAnalyticsResult] = useState(createAnalyticsTestResult());
+  const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestAnalyticsResult(await testApp());
+      setTestResults(await testApp());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {
@@ -35,6 +35,6 @@ export default function ClientResults() {
   }, []);
 
   return (
-    <ResultsDisplay statusString={testStatus} testAppResult={testAnalyticsResult} />
+    <ResultsDisplay statusString={testStatus} testResults={testResults} />
   );
 }

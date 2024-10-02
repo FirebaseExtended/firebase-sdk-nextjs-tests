@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 import Link from 'next/link';
-export default function ResultsDisplay({ statusString, testAppResult }) {
+export default function ResultsDisplay({ statusString, testResults }) {
   return (
     <>
       <h2 title="testStatus">{statusString}</h2>
-      <h4 title="initializeAppResult">initializeAppResult: {testAppResult.initializeAppResult}</h4>
-      <h4 title="initializeAppCheckResult">initializeAppCheckResult: {testAppResult.initializeAppCheckResult}</h4>
-      <h4 title="getTokenResult">getTokenResult: {testAppResult.getTokenResult}</h4>
-      <h4 title="deleteAppResult">deleteAppResult: {testAppResult.deleteAppResult}</h4>
+      <h4 title="initializeAppResult">initializeAppResult: {testResults.initializeAppResult}</h4>
+      <h4 title="initializeAppCheckResult">initializeAppCheckResult: {testResults.initializeAppCheckResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testResults.getTokenResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
       <p />
       <Link href="/">Back to test index</Link>
     </>

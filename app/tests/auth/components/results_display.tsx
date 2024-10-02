@@ -15,20 +15,20 @@
  * limitations under the License.
  */
 import Link from 'next/link';
-export default function ResultsDisplay({ statusString, testAuthResult }) {
+export default function ResultsDisplay({ statusString, testResults }) {
   return (
     <>
       <h2 title="testStatus">{statusString}</h2>
-      <h4 title="initializeAppResult">initializeAppResult: {testAuthResult.initializeAppResult}</h4>
-      <h4 title="initializeAuthResult">initializeAuthResult: {testAuthResult.initializeAuthResult}</h4>
-      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testAuthResult.signInAnonymouslyResult}</h4>
-      <h4 title="getTokenResult">getTokenResult: {testAuthResult.getTokenResult}</h4>
-      <h4 title="initializeServerAppResult">initializeServerAppResult: {testAuthResult.initializeServerAppResult}</h4>
-      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testAuthResult.getAuthServerAppResult}</h4>
-      <h4 title="getServerAppUserResult">getServerAppUserResult: {testAuthResult.getServerAppUserResult}</h4>
-      <h4 title="deleteServerAppResult">deleteServerAppResult: {testAuthResult.deleteServerAppResult}</h4>
-      <h4 title="deleteUserResult">deleteUserResult: {testAuthResult.deleteUserResult}</h4>
-      <h4 title="deleteAppResult">deleteAppResult: {testAuthResult.deleteAppResult}</h4>
+      <h4 title="initializeAppResult">initializeAppResult: {testResults.initializeAppResult}</h4>
+      <h4 title="initializeAuthResult">initializeAuthResult: {testResults.initializeAuthResult}</h4>
+      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testResults.signInAnonymouslyResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testResults.getTokenResult}</h4>
+      <h4 title="initializeServerAppResult">initializeServerAppResult: {testResults.initializeServerAppResult}</h4>
+      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testResults.getAuthServerAppResult}</h4>
+      <h4 title="getServerAppUserResult">getServerAppUserResult: {testResults.getServerAppUserResult}</h4>
+      <h4 title="deleteServerAppResult">deleteServerAppResult: {testResults.deleteServerAppResult}</h4>
+      <h4 title="deleteUserResult">deleteUserResult: {testResults.deleteUserResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
       <p />
       <Link href="/">Back to test index</Link>
     </>

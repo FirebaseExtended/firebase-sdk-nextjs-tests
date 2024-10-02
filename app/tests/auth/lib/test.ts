@@ -19,7 +19,7 @@ import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from
 import { firebaseConfig } from 'lib/firebase';
 import { OK, OK_SKIPPED, FAILED } from 'lib/util';
 
-export type TestAuthResult = {
+export type TestResults = {
   initializeAppResult: string,
   initializeAuthResult: string,
   signInAnonymouslyResult: string,
@@ -32,8 +32,8 @@ export type TestAuthResult = {
   deleteAppResult: string
 };
 
-export function createTestAuthResult(): TestAuthResult {
-  const testAuthResult: TestAuthResult = {
+export function initializeTestResults(): TestResults {
+  return {
     initializeAppResult: FAILED,
     initializeAuthResult: FAILED,
     signInAnonymouslyResult: FAILED,
@@ -45,7 +45,6 @@ export function createTestAuthResult(): TestAuthResult {
     deleteUserResult: FAILED,
     deleteAppResult: FAILED
   };
-  return testAuthResult;
 }
 
 async function authStateChangedUserSignedIn(auth): Promise<User> {
@@ -62,8 +61,8 @@ async function authStateChangedUserSignedIn(auth): Promise<User> {
   return promise;
 }
 
-export async function testAuth(isServer: boolean = false): Promise<TestAuthResult> {
-  const result: TestAuthResult = createTestAuthResult();
+export async function testAuth(isServer: boolean = false): Promise<TestResults> {
+  const result: TestResults = initializeTestResults();
   try {
     const firebaseApp = initializeApp(firebaseConfig, "authTest");
     result.initializeAppResult = OK;

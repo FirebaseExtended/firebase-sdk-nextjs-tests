@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testApp, TestAnalyticsResult } from '../lib/test';
+import { testApp, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
 export const metadata: Metadata = {
@@ -23,11 +23,11 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const testAnalyticsResult: TestAnalyticsResult = await testApp(/*isServer=*/true);
+  const testResults: TestResults = await testApp(/*isServer=*/true);
   return (
     <>
       <h1>Analytics SSR Test results:</h1>
-      <ResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
+      <ResultsDisplay statusString='Tests Complete!' testResults={testResults} />
     </>
   );
 }
