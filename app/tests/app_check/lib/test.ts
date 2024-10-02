@@ -14,51 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { getApp, deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
+import { deleteApp, initializeApp } from 'firebase/app';
+import { AppCheckToken, CustomProvider, initializeAppCheck, getToken } from 'firebase/app-check';
 import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from 'lib/util';
+import { OK, FAILED } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
-  getAppResult: string,
-  deleteAppResult: string,
-  initializeServerAppResult: string,
-  deleteServerAppResult: string
+  initializeAppCheckResult: string,
+  getTokenResult: string,
+  deleteAppResult: string
 };
 
 export function initializeTestResults(): TestResults {
   return {
     initializeAppResult: FAILED,
-    getAppResult: FAILED,
-    deleteAppResult: FAILED,
-    initializeServerAppResult: FAILED,
-    deleteServerAppResult: FAILED
+    initializeAppCheckResult: FAILED,
+    getTokenResult: FAILED,
+    deleteAppResult: FAILED
   };
 }
 
-export async function testApp(isServer: boolean = false): Promise<TestResults> {
+export async function testApp(): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
   try {
-    const firebaseApp = initializeApp(firebaseConfig, "appTest");
-    if (firebaseApp !== null) {
+    const firebaseApp = initializeApp(firebaseConfig);
+    if (initializeApp !== null) {
       result.initializeAppResult = OK;
-      const retrievedAppInstance = getApp("appTest");
-      if (retrievedAppInstance.name === firebaseApp.name) {
-        result.getAppResult = OK;
+      const appCheck = initializeAppCheck(firebaseApp, {
+        provider: new CustomProvider({
+          getToken: () => Promise.resolve({ token: 'abcd' } as AppCheckToken)
+        })
+      });
+      if (appCheck !== null) {
+        result.initializeAppCheckResult = OK;
+        await getToken(appCheck);
+        result.getTokenResult = OK;
       }
       deleteApp(firebaseApp);
       result.deleteAppResult = OK;
-    }
-    if (!isServer) {
-      result.initializeServerAppResult = OK_SKIPPED;
-      result.deleteServerAppResult = OK_SKIPPED;
-    } else {
-      const serverApp = initializeServerApp(firebaseConfig, {});
-      if (serverApp !== null) {
-        result.initializeServerAppResult = OK;
-        deleteApp(serverApp);
-        result.deleteServerAppResult = OK;
-      }
     }
   } catch (e) {
     console.log("Caught error: ", e);

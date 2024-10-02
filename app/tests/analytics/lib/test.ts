@@ -19,7 +19,7 @@ import { getAnalytics, logEvent, isSupported } from 'firebase/analytics';
 import { firebaseConfig } from 'lib/firebase';
 import { OK, OK_SKIPPED, FAILED, sleep } from 'lib/util';
 
-export type TestAnalyticsResult = {
+export type TestResults = {
   initializeAppResult: string,
   isSupportedResult: string,
   getAnalyticsResult: string,
@@ -27,8 +27,8 @@ export type TestAnalyticsResult = {
   deleteAppResult: string
 };
 
-export function createAnalyticsTestResult(): TestAnalyticsResult {
-  const testAnalyticsResult: TestAnalyticsResult = {
+export function initializeTestResults(): TestResults {
+  const testAnalyticsResult: TestResults = {
     initializeAppResult: FAILED,
     isSupportedResult: FAILED,
     getAnalyticsResult: FAILED,
@@ -38,8 +38,8 @@ export function createAnalyticsTestResult(): TestAnalyticsResult {
   return testAnalyticsResult;
 }
 
-export async function testApp(isServerApp: boolean = false): Promise<TestAnalyticsResult> {
-  const result: TestAnalyticsResult = createAnalyticsTestResult();
+export async function testApp(isServerApp: boolean = false): Promise<TestResults> {
+  const result: TestResults = initializeTestResults();
   if (isServerApp) {
     try {
       // Note: Analytics isn't supported in node environments.

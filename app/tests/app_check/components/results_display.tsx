@@ -14,18 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { Metadata } from 'next'
-import ClientResults from '../components/csr_test_runner';
-
-export const metadata: Metadata = {
-  title: 'App Web SDK CSR test'
-}
-
-export default function Page() {
+import Link from 'next/link';
+export default function ResultsDisplay({ statusString, testResults }) {
   return (
     <>
-      <h1>App CSR Test results:</h1>
-      <ClientResults />
+      <h2 title="testStatus">{statusString}</h2>
+      <h4 title="initializeAppResult">initializeAppResult: {testResults.initializeAppResult}</h4>
+      <h4 title="initializeAppCheckResult">initializeAppCheckResult: {testResults.initializeAppCheckResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testResults.getTokenResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
+      <p />
+      <Link href="/">Back to test index</Link>
     </>
   );
 }

@@ -30,11 +30,19 @@ export default async function Page() {
           <li><Link href="/tests/analytics/web_client">Analytics Web SDK client-side tests</Link></li>
           <li><Link href="/tests/analytics/web_ssr">Analytics Web SDK server-side tests</Link></li>
         </ul>
+        <p />
         <li>App</li>
         <ul>
           <li><Link href="/tests/app/web_client">App Web SDK client-side tests</Link></li>
           <li><Link href="/tests/app/web_ssr">App Web SDK server-side tests</Link></li>
         </ul>
+        <p />
+        <li>AppCheck</li>
+        <ul>
+          <li><Link href="/tests/app_check/web_client">AppCheck Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/app_check/web_ssr">AppCheck Web SDK server-side tests</Link></li>
+        </ul>
+        <p />
         <li>Auth</li>
         <ul>
           <li><Link href="/tests/auth/web_client">Auth Web SDK client-side tests</Link></li>
