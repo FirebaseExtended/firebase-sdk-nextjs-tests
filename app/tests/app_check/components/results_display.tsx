@@ -14,20 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import type { Metadata } from 'next'
-import { testApp, TestAnalyticsResult } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
-
-export const metadata: Metadata = {
-  title: 'Analytics Web SDK SSR test'
-}
-
-export default async function Page() {
-  const testAnalyticsResult: TestAnalyticsResult = await testApp(/*isServer=*/true);
+import Link from 'next/link';
+export default function ResultsDisplay({ statusString, testAppResult }) {
   return (
     <>
-      <h1>Analytics SSR Test results:</h1>
-      <ResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
+      <h2 title="testStatus">{statusString}</h2>
+      <h4 title="initializeAppResult">initializeAppResult: {testAppResult.initializeAppResult}</h4>
+      <h4 title="initializeAppCheckResult">initializeAppCheckResult: {testAppResult.initializeAppCheckResult}</h4>
+      <h4 title="getTokenResult">getTokenResult: {testAppResult.getTokenResult}</h4>
+      <h4 title="deleteAppResult">deleteAppResult: {testAppResult.deleteAppResult}</h4>
+      <p />
+      <Link href="/">Back to test index</Link>
     </>
   );
 }

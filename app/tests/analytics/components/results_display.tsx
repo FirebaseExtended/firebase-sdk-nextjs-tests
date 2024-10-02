@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import Link from 'next/link';
-export default function AnalyticsResultsDisplay({ statusString, testAppResult }) {
+export default function ResultsDisplay({ statusString, testAppResult }) {
   return (
     <>
       <h2 title="testStatus">{statusString}</h2>

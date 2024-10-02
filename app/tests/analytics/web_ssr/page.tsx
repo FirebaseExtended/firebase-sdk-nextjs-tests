@@ -16,7 +16,7 @@
  */
 import type { Metadata } from 'next'
 import { testApp, TestAnalyticsResult } from '../lib/test';
-import AnalyticsResultsDisplay from '../components/results_display';
+import ResultsDisplay from '../components/results_display';
 
 export const metadata: Metadata = {
   title: 'Analytics Web SDK SSR test'
@@ -27,7 +27,7 @@ export default async function Page() {
   return (
     <>
       <h1>Analytics SSR Test results:</h1>
-      <AnalyticsResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
+      <ResultsDisplay statusString='Tests Complete!' testAppResult={testAnalyticsResult} />
     </>
   );
 }
