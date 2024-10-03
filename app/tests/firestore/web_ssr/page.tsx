@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testAnalytics, TestResults } from '../lib/test';
+import { testFirestore, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
+// Suppress static site generation as this hangs on the app deletion in test.ts.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
-  title: 'Analytics Web SDK SSR test'
+  title: 'Firestore Web SDK SSR test'
 }
 
 export default async function Page() {
-  const testResults: TestResults = await testAnalytics(/*isServer=*/true);
+  const testResults: TestResults = await testFirestore();
   return (
     <>
-      <h1>Analytics SSR Test results:</h1>
+      <h1>Firestore SSR Test results:</h1>
       <ResultsDisplay statusString='Tests Complete!' testResults={testResults} />
     </>
   );

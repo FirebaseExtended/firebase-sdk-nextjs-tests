@@ -51,8 +51,14 @@ export default async function Page() {
         <p />
         <li>Database</li>
         <ul>
-          <li><Link href="/tests/database/web_client">Auth Web SDK client-side tests</Link></li>
-          <li><Link href="/tests/database/web_ssr">Auth Web SDK server-side tests</Link></li>
+          <li><Link href="/tests/database/web_client">Database Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/database/web_ssr">Database Web SDK server-side tests</Link></li>
+        </ul>
+        <p />
+        <li>Firestore</li>
+        <ul>
+          <li><Link href="/tests/firestore/web_client">Firestore Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/firestore/web_ssr">Firestore Web SDK server-side tests</Link></li>
         </ul>
       </ul>
     </>

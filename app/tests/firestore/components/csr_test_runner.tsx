@@ -17,15 +17,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testAppCheck, initializeTestResults } from '../lib/test';
+import { testFirestore, initializeTestResults } from '../lib/test';
 import ResultsDisplay from './results_display';
 
-export default function ClientResults() {
+export default function CsrTestRunner() {
   const [testStatus, setTestStatus] = useState<string>("running...");
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testAppCheck());
+      setTestResults(await testFirestore());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {

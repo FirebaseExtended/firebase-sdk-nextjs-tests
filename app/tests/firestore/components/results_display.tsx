@@ -20,15 +20,16 @@ export default function ResultsDisplay({ statusString, testResults }) {
     <>
       <h2 title="testStatus">{statusString}</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testResults.initializeAppResult}</h4>
-      <h4 title="initializeAuthResult">initializeAuthResult: {testResults.initializeAuthResult}</h4>
-      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testResults.signInAnonymouslyResult}</h4>
-      <h4 title="getTokenResult">getTokenResult: {testResults.getTokenResult}</h4>
-      <h4 title="initializeServerAppResult">initializeServerAppResult: {testResults.initializeServerAppResult}</h4>
-      <h4 title="getAuthServerAppResult">getAuthServerAppResult: {testResults.getAuthServerAppResult}</h4>
-      <h4 title="getServerAppUserResult">getServerAppUserResult: {testResults.getServerAppUserResult}</h4>
-      <h4 title="deleteServerAppResult">deleteServerAppResult: {testResults.deleteServerAppResult}</h4>
-      <h4 title="deleteUserResult">deleteUserResult: {testResults.deleteUserResult}</h4>
-      <h4 title="userSignedOutResult">userSignedOutResult: {testResults.userSignedOutResult}</h4>
+      <h4 title="initializeFirestoreResult">initializeFirestoreResult: {testResults.initializeFirestoreResult}</h4>
+      <h4 title="createDocInstanceResult">createDocInstanceResult: {testResults.createDocInstanceResult}</h4>
+      <h4 title="setDocResult">setDocResult: {testResults.setDocResult}</h4>
+      <h4 title="onSnapshotSetDR">onSnapshotSetDocResult: {testResults.onSnapshotSetDocResult}</h4>
+      <h4 title="updateDocResult">updateDocResult: {testResults.updateDocResult}</h4>
+      <h4 title="onSnapshotUpdateDR">onSnapshotUpdateDocResult: {testResults.onSnapshotUpdateDocResult}</h4>
+      <h4 title="getDocResult">getDocResult: {testResults.getDocResult}</h4>
+      <h4 title="deleteDocResult">deleteDocResult: {testResults.deleteDocResult}</h4>
+      <h4 title="onSnapshotDeleteDR">onSnapshotDeleteDocResult: {testResults.onSnapshotDeleteDocResult}</h4>
+      <h4 title="getDeletedDocResult">getDeletedDocResult: {testResults.getDeletedDocResult}</h4>
       <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
       <p />
       <Link href="/">Back to test index</Link>

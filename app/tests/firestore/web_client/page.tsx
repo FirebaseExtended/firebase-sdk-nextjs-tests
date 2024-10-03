@@ -15,19 +15,17 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testAnalytics, TestResults } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
+import CSRTestRunner from '../components/csr_test_runner';
 
 export const metadata: Metadata = {
-  title: 'Analytics Web SDK SSR test'
+  title: 'Firestore Web SDK CSR test'
 }
 
-export default async function Page() {
-  const testResults: TestResults = await testAnalytics(/*isServer=*/true);
+export default function Page() {
   return (
     <>
-      <h1>Analytics SSR Test results:</h1>
-      <ResultsDisplay statusString='Tests Complete!' testResults={testResults} />
+      <h1>Firestore CSR Test results:</h1>
+      <CSRTestRunner />
     </>
   );
 }

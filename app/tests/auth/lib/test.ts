@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
-import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
+import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED, sleep } from 'lib/util';
+import { OK, OK_SKIPPED, FAILED } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -29,6 +29,7 @@ export type TestResults = {
   getServerAppUserResult: string,
   deleteServerAppResult: string
   deleteUserResult: string,
+  userSignedOutResult : string,
   deleteAppResult: string
 };
 
@@ -43,20 +44,28 @@ export function initializeTestResults(): TestResults {
     getServerAppUserResult: FAILED,
     deleteServerAppResult: FAILED,
     deleteUserResult: FAILED,
+    userSignedOutResult : FAILED,
     deleteAppResult: FAILED
   };
 }
 
-async function authStateChangedUserSignedIn(auth): Promise<User> {
-  const promise: Promise<User> = new Promise((resolve, reject) => {
+async function waitForUserSignedIn(auth): Promise<void> {
+  const promise: Promise<void> = new Promise<void>((resolve, reject) => {
+    let completed: boolean = false;
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
       if (user) {
-        resolve(user);
-      } else {
-        reject();
+        completed = true;
+        unsubscribe();
+        resolve();
       }
     });
+    setTimeout(() => {
+      if (!completed) {
+        completed = true;
+        unsubscribe();
+        reject();
+      }
+    }, 3000);
   });
   return promise;
 }
@@ -70,7 +79,7 @@ export async function testAuth(isServer: boolean = false): Promise<TestResults> 
     await auth.authStateReady();
     result.initializeAuthResult = OK;
     await signInAnonymously(auth);
-    await authStateChangedUserSignedIn(auth);
+    await waitForUserSignedIn(auth);
     if (auth.currentUser !== null) {
       result.signInAnonymouslyResult = OK;
       const idToken = await auth.currentUser.getIdToken();
@@ -97,12 +106,12 @@ export async function testAuth(isServer: boolean = false): Promise<TestResults> 
         result.deleteServerAppResult = OK;
       }
       await deleteUser(auth.currentUser);
-      sleep(500);
+      result.deleteUserResult = OK;
+      await auth.signOut();
       if (auth.currentUser === null) {
-        result.deleteUserResult = OK;
+        result.userSignedOutResult = OK;
       }
     }
-
     deleteApp(firebaseApp);
     result.deleteAppResult = OK;
   } catch (e) {
