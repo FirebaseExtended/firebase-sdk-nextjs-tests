@@ -17,7 +17,7 @@
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
 import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
 import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from 'lib/util';
+import { OK, OK_SKIPPED, FAILED, sleep } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -64,7 +64,7 @@ async function authStateChangedUserSignedIn(auth): Promise<User> {
 export async function testAuth(isServer: boolean = false): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
   try {
-    const firebaseApp = initializeApp(firebaseConfig, "authTest");
+    const firebaseApp = initializeApp(firebaseConfig);
     result.initializeAppResult = OK;
     const auth = getAuth(firebaseApp);
     await auth.authStateReady();
@@ -97,6 +97,7 @@ export async function testAuth(isServer: boolean = false): Promise<TestResults> 
         result.deleteServerAppResult = OK;
       }
       await deleteUser(auth.currentUser);
+      sleep(500);
       if (auth.currentUser === null) {
         result.deleteUserResult = OK;
       }

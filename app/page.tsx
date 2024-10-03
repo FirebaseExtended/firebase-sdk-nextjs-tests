@@ -48,6 +48,12 @@ export default async function Page() {
           <li><Link href="/tests/auth/web_client">Auth Web SDK client-side tests</Link></li>
           <li><Link href="/tests/auth/web_ssr">Auth Web SDK server-side tests</Link></li>
         </ul>
+        <p />
+        <li>Database</li>
+        <ul>
+          <li><Link href="/tests/database/web_client">Auth Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/database/web_ssr">Auth Web SDK server-side tests</Link></li>
+        </ul>
       </ul>
     </>
   );

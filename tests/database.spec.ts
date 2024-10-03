@@ -20,27 +20,27 @@ test.describe.configure({ mode: 'serial' });
 
 async function commonExpectations(page) {
   await expect(page.getByTitle('initializeAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('initializeAuthResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('signInAnonymouslyResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getTokenResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('initializeServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getAuthServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('getServerAppUserResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('deleteServerAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('deleteUserResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('initializeDatabaseResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('createRefResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('deleteSetValueListenerResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('deleteUpdateValueListenerResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('deleteRemoveValueListenerResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('setValueResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('updateValueResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('deleteValueResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
 }
 
-test('auth operations should pass - client', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/web_client`);
+test('database operations should pass - client', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/database/web_client`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Auth CSR Test');
+  await expect(page.locator('h1')).toContainText('Database CSR Test');
   await commonExpectations(page);
 });
 
-test('auth operations should pass - server', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/auth/web_ssr`);
+test('database operations should pass - server', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/database/web_ssr`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Auth SSR Test');
+  await expect(page.locator('h1')).toContainText('Database SSR Test');
   await commonExpectations(page);
 });
