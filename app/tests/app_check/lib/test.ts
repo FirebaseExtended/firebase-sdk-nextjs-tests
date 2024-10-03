@@ -35,7 +35,7 @@ export function initializeTestResults(): TestResults {
   };
 }
 
-export async function testApp(): Promise<TestResults> {
+export async function testAppCheck(): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
   try {
     const firebaseApp = initializeApp(firebaseConfig);

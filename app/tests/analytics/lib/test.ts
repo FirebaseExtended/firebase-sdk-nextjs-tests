@@ -38,7 +38,7 @@ export function initializeTestResults(): TestResults {
   return testAnalyticsResult;
 }
 
-export async function testApp(isServerApp: boolean = false): Promise<TestResults> {
+export async function testAnalytics(isServerApp: boolean = false): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
   if (isServerApp) {
     try {

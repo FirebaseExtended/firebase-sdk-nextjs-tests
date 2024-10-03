@@ -50,7 +50,7 @@ export function initializeTestResults(): TestResults {
 export async function testDatabase(isServer: boolean = false): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
   try {
-    const firebaseApp = initializeApp(firebaseConfig, "authTest");
+    const firebaseApp = initializeApp(firebaseConfig);
     if (firebaseApp === null) {
       return result;
     }

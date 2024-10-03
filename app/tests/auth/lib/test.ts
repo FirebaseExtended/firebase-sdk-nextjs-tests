@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
-import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
+import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 import { firebaseConfig } from 'lib/firebase';
 import { OK, OK_SKIPPED, FAILED, sleep } from 'lib/util';
 
@@ -47,16 +47,23 @@ export function initializeTestResults(): TestResults {
   };
 }
 
-async function authStateChangedUserSignedIn(auth): Promise<User> {
-  const promise: Promise<User> = new Promise((resolve, reject) => {
+async function authStateChangedUserSignedIn(auth): Promise<void> {
+  const promise: Promise<void> = new Promise<void>((resolve, reject) => {
+    let completed: boolean = false;
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
       if (user) {
-        resolve(user);
-      } else {
-        reject();
+        completed = true;
+        unsubscribe();
+        resolve();
       }
     });
+    setTimeout(() => {
+      if (!completed) {
+        completed = true;
+        unsubscribe();
+        reject();
+      }
+    }, 3000);
   });
   return promise;
 }
@@ -97,7 +104,7 @@ export async function testAuth(isServer: boolean = false): Promise<TestResults> 
         result.deleteServerAppResult = OK;
       }
       await deleteUser(auth.currentUser);
-      sleep(500);
+      sleep(1000);
       if (auth.currentUser === null) {
         result.deleteUserResult = OK;
       }

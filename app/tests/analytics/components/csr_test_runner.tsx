@@ -17,7 +17,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testApp, initializeTestResults } from '../lib/test';
+import { testAnalytics, initializeTestResults } from '../lib/test';
 import ResultsDisplay from './results_display';
 
 export default function ClientResults() {
@@ -25,7 +25,7 @@ export default function ClientResults() {
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testApp());
+      setTestResults(await testAnalytics());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {
