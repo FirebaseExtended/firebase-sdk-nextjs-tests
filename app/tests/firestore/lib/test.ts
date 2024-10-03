@@ -101,7 +101,6 @@ export async function testFirestore(): Promise<TestResults> {
       const unsubscribe = onSnapshot(document, (docSnapshot) => {
         if (docSnapshot.exists()) {
           const docData = docSnapshot.data();
-          console.log("docData: ", docData);
           if (docData && docData.testbool !== undefined && docData.testbool === false) {
             unsubscribe();
             result.onSnapshotUpdateDocResult = OK;
