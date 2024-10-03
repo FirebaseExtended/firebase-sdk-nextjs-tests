@@ -28,6 +28,7 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="getServerAppUserResult">getServerAppUserResult: {testResults.getServerAppUserResult}</h4>
       <h4 title="deleteServerAppResult">deleteServerAppResult: {testResults.deleteServerAppResult}</h4>
       <h4 title="deleteUserResult">deleteUserResult: {testResults.deleteUserResult}</h4>
+      <h4 title="userSignedOutResult">userSignedOutResult: {testResults.userSignedOutResult}</h4>
       <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
       <p />
       <Link href="/">Back to test index</Link>
