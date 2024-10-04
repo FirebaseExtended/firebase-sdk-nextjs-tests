@@ -19,7 +19,7 @@ import { deleteApp, initializeApp } from 'firebase/app';
 import { firebaseConfig } from 'lib/firebase';
 import { getFunctions, httpsCallable, httpsCallableFromURL } from 'firebase/functions';
 import { getAuth, deleteUser, signInAnonymously } from 'firebase/auth';
-import { OK, FAILED, waitForUserSignedIn } from 'lib/util';
+import { OK, FAILED, waitForUserSignIn } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -67,7 +67,7 @@ export async function testFunctions(): Promise<TestResults> {
     result.initializeAuthResult = OK;
 
     await signInAnonymously(auth);
-    await waitForUserSignedIn(auth);
+    await waitForUserSignIn(auth);
     if (auth.currentUser) {
       result.authUserSignedInResult = OK;
 

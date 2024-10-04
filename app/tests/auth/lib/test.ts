@@ -17,7 +17,7 @@
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
 import { deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
 import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED, waitForUserSignedIn } from 'lib/util';
+import { OK, OK_SKIPPED, FAILED, waitForUserSignIn } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -58,7 +58,7 @@ export async function testAuth(isServer: boolean = false): Promise<TestResults> 
     await auth.authStateReady();
     result.initializeAuthResult = OK;
     await signInAnonymously(auth);
-    await waitForUserSignedIn(auth);
+    await waitForUserSignIn(auth);
     if (auth.currentUser !== null) {
       result.signInAnonymouslyResult = OK;
       const idToken = await auth.currentUser.getIdToken();

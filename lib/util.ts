@@ -24,7 +24,7 @@ export async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export async function waitForUserSignedIn(auth : Auth): Promise<void> {
+export async function waitForUserSignIn(auth : Auth): Promise<void> {
   const promise: Promise<void> = new Promise<void>((resolve, reject) => {
     let completed: boolean = false;
     const unsubscribe = onAuthStateChanged(auth, (user) => {
