@@ -60,6 +60,12 @@ export default async function Page() {
           <li><Link href="/tests/firestore/web_client">Firestore Web SDK client-side tests</Link></li>
           <li><Link href="/tests/firestore/web_ssr">Firestore Web SDK server-side tests</Link></li>
         </ul>
+        <p />
+        <li>Functions</li>
+        <ul>
+          <li><Link href="/tests/functions/web_client">Functions Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/functions/web_ssr">Functions Web SDK server-side tests</Link></li>
+        </ul>
       </ul>
     </>
   );

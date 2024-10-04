@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { Auth, onAuthStateChanged } from 'firebase/auth';
 
 export const OK: string = "OK";
 export const OK_SKIPPED: string = "OK - SKIPPED";
@@ -21,4 +22,25 @@ export const FAILED: string = "FAILED";
 
 export async function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+export async function waitForUserSignIn(auth : Auth): Promise<void> {
+  const promise: Promise<void> = new Promise<void>((resolve, reject) => {
+    let completed: boolean = false;
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        completed = true;
+        unsubscribe();
+        resolve();
+      }
+    });
+    setTimeout(() => {
+      if (!completed) {
+        completed = true;
+        unsubscribe();
+        reject();
+      }
+    }, 3000);
+  });
+  return promise;
 }
