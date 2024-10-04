@@ -15,9 +15,9 @@
  * limitations under the License.
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
-import { deleteUser, getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
+import { deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
 import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from 'lib/util';
+import { OK, OK_SKIPPED, FAILED, waitForUserSignedIn } from 'lib/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -47,27 +47,6 @@ export function initializeTestResults(): TestResults {
     userSignedOutResult : FAILED,
     deleteAppResult: FAILED
   };
-}
-
-async function waitForUserSignedIn(auth): Promise<void> {
-  const promise: Promise<void> = new Promise<void>((resolve, reject) => {
-    let completed: boolean = false;
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        completed = true;
-        unsubscribe();
-        resolve();
-      }
-    });
-    setTimeout(() => {
-      if (!completed) {
-        completed = true;
-        unsubscribe();
-        reject();
-      }
-    }, 3000);
-  });
-  return promise;
 }
 
 export async function testAuth(isServer: boolean = false): Promise<TestResults> {
