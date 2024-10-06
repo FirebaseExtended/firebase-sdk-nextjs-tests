@@ -15,21 +15,21 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testAppCheck, TestResults } from '../lib/test';
+import { testPerformance, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
 // Suppress static site generation.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: 'AppCheck Web SDK SSR test'
+  title: 'Performance Web SDK SSR test'
 }
 
 export default async function Page() {
-  const testResults: TestResults = await testAppCheck();
+  const testResults: TestResults = await testPerformance(/*isServer=*/true);
   return (
     <>
-      <h1>AppCheck SSR Test results:</h1>
+      <h1>Performance SSR Test results:</h1>
       <ResultsDisplay statusString='Tests Complete!' testResults={testResults} />
     </>
   );

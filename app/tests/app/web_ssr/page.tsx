@@ -18,6 +18,9 @@ import type { Metadata } from 'next'
 import { testApp, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
+// Suppress static site generation.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: 'App Web SDK SSR test'
 }

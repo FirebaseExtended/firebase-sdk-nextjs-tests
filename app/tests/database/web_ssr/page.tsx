@@ -18,7 +18,7 @@ import type { Metadata } from 'next'
 import { testDatabase, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
-// Suppress static site generation as this hangs on the app deletion in test.ts.
+// Suppress static site generation.
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {

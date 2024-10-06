@@ -18,6 +18,9 @@ import type { Metadata } from 'next'
 import { testMessaging, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
+// Suppress static site generation.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: 'Messaging Web SDK SSR test'
 }
