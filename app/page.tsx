@@ -66,6 +66,12 @@ export default async function Page() {
           <li><Link href="/tests/functions/web_client">Functions Web SDK client-side tests</Link></li>
           <li><Link href="/tests/functions/web_ssr">Functions Web SDK server-side tests</Link></li>
         </ul>
+        <p />
+        <li>Messaging</li>
+        <ul>
+          <li><Link href="/tests/messaging/web_client">Messaging Web SDK client-side tests</Link></li>
+          <li><Link href="/tests/messaging/web_ssr">Messaging Web SDK server-side tests</Link></li>
+        </ul>
       </ul>
     </>
   );
