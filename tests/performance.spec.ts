@@ -20,20 +20,24 @@ test.describe.configure({ mode: 'serial' });
 
 async function commonExpectations(page) {
   await expect(page.getByTitle('initializeAppResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('initializeMessagingResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('initializePerformanceResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('getPerfTraceResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('runPerfTraceResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('putAttributeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('getAttributeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
 }
 
-test('messaging operations should pass - client', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/messaging/web_client`);
+test('performance operations should pass - client', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/performance/web_client`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Messaging CSR Test');
+  await expect(page.locator('h1')).toContainText('Performance CSR Test');
   await commonExpectations(page);
 });
 
-test('messaging operations should pass - server', async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/tests/messaging/web_ssr`);
+test('performance operations should pass - server', async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/tests/performance/web_ssr`);
   await expect(page.getByTitle('testStatus')).toContainText('Complete', { timeout: 10000 });
-  await expect(page.locator('h1')).toContainText('Messaging SSR Test');
+  await expect(page.locator('h1')).toContainText('Performance SSR Test');
   await commonExpectations(page);
 });

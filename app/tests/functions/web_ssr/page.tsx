@@ -18,6 +18,9 @@ import type { Metadata } from 'next'
 import { testFunctions, TestResults } from '../lib/test';
 import ResultsDisplay from '../components/results_display';
 
+// Suppress static site generation.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: 'Functions Web SDK SSR test'
 }
