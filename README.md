@@ -1,10 +1,11 @@
 # Firebase SDK Next JS Tests
 
-This repository contains automatic nightly tests that exercise the Firebase JS SDK within a Next.JS app environment.
+This repository contains automatic nightly tests that exercise the Firebase JS SDK within a Next.JS app environment via the Playwright test framework.
 
 
 ## Getting Started
 
+### Tools
 This project has be built and tested with `yarn` version `1.22.11`.
 
 First, install dependencies:
@@ -13,22 +14,27 @@ First, install dependencies:
 yarn
 ```
 
-To configure your Firebase project data:
+### Firebase Project configuration
+To configure your Firebase project data, add your project configuration to `./lib/firebase.ts`.
 
-**TBD**
 
-As of now, add your firbase config data to `./lib/firebase.ts`.
-
-To build the test apps:
+### Building and executing the tests:
 
 ```bash
 yarn build
 ```
 
-To execute the tests, run:
+To execute all of the tests, run:
 
 ```bash
 yarn test
+```
+
+To exeucte a single test, define the playwright test spec as a command line parameter. For instance,
+to execute only the Auth tests:
+
+```bash
+yarn test tests/auth.spec.ts
 ```
 
 To run the tests on an app server for manual testing:
@@ -36,4 +42,6 @@ To run the tests on an app server for manual testing:
 ```bash
 yarn dev
 ```
+
+
 
