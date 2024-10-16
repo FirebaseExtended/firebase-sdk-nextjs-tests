@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testApp, TestResults } from '../lib/test';
+import { testApp, TestResults } from '@/lib/app_tests/app/test';
 import ResultsDisplay from '../components/results_display';
 
 // Suppress static site generation.

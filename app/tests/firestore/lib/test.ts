@@ -17,8 +17,8 @@
 
 import { deleteApp, initializeApp } from 'firebase/app';
 import { doc, deleteDoc, getDoc, getFirestore, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
-import { firebaseConfig } from 'lib/firebase';
-import { OK, FAILED } from 'lib/util';
+import { firebaseConfig } from '@/lib/app_tests/firebase';
+import { OK, FAILED } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import { getApp, deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
-import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from 'lib/util';
+import { firebaseConfig } from '@/lib/app_tests/firebase';
+import { OK, OK_SKIPPED, FAILED } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,

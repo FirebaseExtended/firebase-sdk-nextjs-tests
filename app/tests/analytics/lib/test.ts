@@ -16,8 +16,8 @@
  */
 import { deleteApp, initializeApp } from 'firebase/app';
 import { getAnalytics, logEvent, isSupported } from 'firebase/analytics';
-import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED, sleep } from 'lib/util';
+import { firebaseConfig } from '@/lib/app_tests/firebase';
+import { OK, OK_SKIPPED, FAILED, sleep } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,

@@ -17,8 +17,8 @@
 
 import { deleteApp, initializeApp } from 'firebase/app';
 import { getDatabase, update, off, onValue, ref, remove, set } from 'firebase/database';
-import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED } from 'lib/util';
+import { firebaseConfig } from '@/lib/app_tests/firebase';
+import { OK, OK_SKIPPED, FAILED } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,

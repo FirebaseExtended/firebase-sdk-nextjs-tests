@@ -16,8 +16,8 @@
  */
 import { deleteApp, initializeApp, initializeServerApp } from 'firebase/app';
 import { deleteUser, getAuth, signInAnonymously } from 'firebase/auth';
-import { firebaseConfig } from 'lib/firebase';
-import { OK, OK_SKIPPED, FAILED, waitForUserSignIn } from 'lib/util';
+import { firebaseConfig } from '@/lib/app_tests/firebase';
+import { OK, OK_SKIPPED, FAILED, waitForUserSignIn } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,
