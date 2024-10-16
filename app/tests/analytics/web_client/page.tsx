@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import ClientResults from '../components/csr_test_runner';
+import ClientResults from '@/components/app_tests/analytics/csr_test_runner';
 
 export const metadata: Metadata = {
   title: 'Analytics Web SDK CSR test'

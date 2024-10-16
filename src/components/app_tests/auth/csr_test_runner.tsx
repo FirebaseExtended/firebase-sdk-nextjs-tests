@@ -17,7 +17,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testAuth, initializeTestResults } from '../lib/test';
+import { testAuth, initializeTestResults } from '@/lib/app_tests/auth/test';
 import ResultsDisplay from './results_display';
 
 export default function CsrTestRunner() {

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import CsrTestRunner from '../components/csr_test_runner';
+import CsrTestRunner from '@/components/app_tests/app/csr_test_runner';
 
 export const metadata: Metadata = {
   title: 'App Web SDK CSR test'

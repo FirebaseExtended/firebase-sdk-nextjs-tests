@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import ClientResults from '../components/csr_test_runner';
+import ClientResults from '../../../../src/components/app_tests/app_check/csr_test_runner';
 
 export const metadata: Metadata = {
   title: 'AppCheck Web SDK CSR test'

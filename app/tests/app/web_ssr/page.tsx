@@ -16,7 +16,7 @@
  */
 import type { Metadata } from 'next'
 import { testApp, TestResults } from '@/lib/app_tests/app/test';
-import ResultsDisplay from '../components/results_display';
+import ResultsDisplay from '@/components/app_tests/app/results_display';
 
 // Suppress static site generation.
 export const dynamic = "force-dynamic";
