@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testStorage, TestResults } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
+import { testStorage, TestResults } from '@/lib/app_tests/storage/test';
+import ResultsDisplay from '@/components/app_tests/storage/results_display';
 
 // Suppress static site generation.
 export const dynamic = "force-dynamic";
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const testResults: TestResults = await testStorage(/*isServer=*/true);
+  const testResults: TestResults = await testStorage();
   return (
     <>
       <h1>Storage SSR Test results:</h1>

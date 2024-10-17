@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testPerformance, TestResults } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
+import { testPerformance, TestResults } from '@/lib/app_tests/performance/test';
+import ResultsDisplay from '@/components/app_tests/performance/results_display';
 
 // Suppress static site generation.
 export const dynamic = "force-dynamic";

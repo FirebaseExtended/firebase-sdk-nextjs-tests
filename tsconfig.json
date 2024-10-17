@@ -23,7 +23,7 @@
     ],
     "strictNullChecks": true,
     "paths": {
-      "lib/*": ["./lib/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": [

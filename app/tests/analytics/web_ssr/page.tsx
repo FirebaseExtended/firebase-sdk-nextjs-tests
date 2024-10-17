@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testAnalytics, TestResults } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
+import { testAnalytics, TestResults } from '@/lib/app_tests/analytics/test';
+import ResultsDisplay from '@/components/app_tests/analytics/results_display';
 
 export const metadata: Metadata = {
   title: 'Analytics Web SDK SSR test'
