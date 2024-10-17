@@ -101,7 +101,6 @@ export async function testDatabase(isServer: boolean = false): Promise<TestResul
       }
     });
     await remove(dbRef);
-    console.log("remove returned");
     off(dbRef);
 
     result.deleteRemoveValueListenerResult = OK;

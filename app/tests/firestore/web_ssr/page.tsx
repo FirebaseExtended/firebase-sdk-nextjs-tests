@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import type { Metadata } from 'next'
-import { testFirestore, TestResults } from '../lib/test';
-import ResultsDisplay from '../components/results_display';
+import { testFirestore, TestResults } from '@/lib/app_tests/firestore/test';
+import ResultsDisplay from '@/components/app_tests/firestore/results_display';
 
 // Suppress static site generation as this hangs on the app deletion in test.ts.
 export const dynamic = "force-dynamic";

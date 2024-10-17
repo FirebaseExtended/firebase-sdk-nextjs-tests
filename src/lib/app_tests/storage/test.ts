@@ -57,11 +57,8 @@ export function initializeTestResults(): TestResults {
   };
 }
 
-export async function testStorage(isServer: boolean = false): Promise<TestResults> {
+export async function testStorage(): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
-  if (isServer) {
-    console.log("server app");
-  }
 
   try {
     const firebaseApp = initializeApp(firebaseConfig);

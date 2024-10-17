@@ -17,7 +17,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testStorage, initializeTestResults } from '../lib/test';
+import { testPerformance, initializeTestResults } from '@/lib/app_tests/performance/test';
 import ResultsDisplay from './results_display';
 
 export default function CsrTestRunner() {
@@ -25,7 +25,7 @@ export default function CsrTestRunner() {
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testStorage());
+      setTestResults(await testPerformance());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {

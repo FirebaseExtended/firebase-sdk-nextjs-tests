@@ -17,7 +17,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testFunctions, initializeTestResults } from '../lib/test';
+import { testFirestore, initializeTestResults } from '@/lib/app_tests/firestore/test';
 import ResultsDisplay from './results_display';
 
 export default function CsrTestRunner() {
@@ -25,7 +25,7 @@ export default function CsrTestRunner() {
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testFunctions());
+      setTestResults(await testFirestore());
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {
