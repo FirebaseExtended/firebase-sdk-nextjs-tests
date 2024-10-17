@@ -38,9 +38,9 @@ export function initializeTestResults(): TestResults {
   return testAnalyticsResult;
 }
 
-export async function testAnalytics(isServerApp: boolean = false): Promise<TestResults> {
+export async function testAnalytics(isServer: boolean = false): Promise<TestResults> {
   const result: TestResults = initializeTestResults();
-  if (isServerApp) {
+  if (isServer) {
     try {
       // Note: Analytics isn't supported in node environments.
       const firebaseApp = initializeApp(firebaseConfig);
@@ -58,7 +58,7 @@ export async function testAnalytics(isServerApp: boolean = false): Promise<TestR
     } catch (e) {
       console.log("Caught error: ", e);
     }
-  } else /* !isServer() */ {
+  } else /* !isServer */ {
     try {
       const firebaseApp = initializeApp(firebaseConfig);
       if (firebaseApp !== null) {
@@ -74,7 +74,7 @@ export async function testAnalytics(isServerApp: boolean = false): Promise<TestR
           result.logEventResult = OK;
         }
         // logEvent throws an error if we delete the app here, due to
-        // it's asynchronous behavior.
+        // its asynchronous behavior.
         await sleep(1000);
         deleteApp(firebaseApp);
         result.deleteAppResult = OK;
