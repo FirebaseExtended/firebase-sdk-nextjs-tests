@@ -33,7 +33,7 @@ jobs:
         node-version: 20.x
     - name: Write Project Config
       env:
-        PROJECT_CONFIG: ${{ secrets.TEST_PROJECT_CONFIG }}
+        PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
     - name: Yarn install
       run: yarn
