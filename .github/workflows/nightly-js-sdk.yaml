@@ -59,10 +59,10 @@ jobs:
     - name: Yarn build
       run: yarn build
     - name: Restore cached playwright browsers
-        uses: actions/cache@v4
-        with:      
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ hashFiles('playwright.config.ts') }}
+      uses: actions/cache@v4
+      with:      
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ hashFiles('playwright.config.ts') }}
     - name: Install Playwright browsers
       run: yarn playwright install --with-deps
     - name: Launch E2E tests workflow
