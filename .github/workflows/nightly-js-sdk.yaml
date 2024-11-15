@@ -33,14 +33,16 @@ jobs:
         node-version: 20.x
     - name: Write Project Config
       env:
-        PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
+        PROJECT_CONFIG: ${{ vars.PROJECT }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
+    - name: Log
+      run: cat src/lib/app_tests/firebase.ts
     - name: Yarn install
       run: yarn
     - name: Yarn build
       run: yarn build
     - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      run: yarn playwright install --with-deps
     - name: Launch E2E tests workflow
       run: yarn test
     
