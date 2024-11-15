@@ -15,21 +15,57 @@
 name: Firebase JS SDK Nightly
 
 on:
+  schedule:
+    - cron: "0 0 * * *"
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   run:
-    name: Execute tests
+    name: Execute JS SDK Playwright tests
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
     - name: Set up Node (20)
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: 20.x
+        cache: 'npm'
+        cache-dependency-path: yarn.lock
+    - name: Restore cached node_modules
+      uses: actions/cache@v4
+      id: node_modules
+      with:
+        path: "./node_modules"
+        key: node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+    - name: Write Project Config
+      env:
+        PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
+      run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
     - name: Yarn install
-      run: yarn
+      run: yarn --frozen-lockfile
+    - name: Restore yarn build cache
+      uses: actions/cache@v4
+      with:      
+        path: |
+          ~/.npm
+          ${{ github.workspace }}/.next/cache
+        # Generate a new cache whenever packages or source files change.
+        key: ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+        # If source files changed but packages didn't, rebuild from a prior cache.
+        restore-keys: |
+          ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-
+    - name: Yarn build
+      run: yarn build
+    - name: Restore cached playwright browsers
+      uses: actions/cache@v4
+      with:      
+        path: ~/.cache/ms-playwright
+        key: playwright-${{ hashFiles('playwright.config.ts') }}
+    - name: Install Playwright browsers
+      run: yarn playwright install --with-deps
     - name: Launch E2E tests workflow
-      run: |
-        echo Hello World (TBD)
+      run: yarn test
