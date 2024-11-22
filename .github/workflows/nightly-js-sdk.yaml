@@ -69,3 +69,18 @@ jobs:
       run: yarn playwright install --with-deps
     - name: Launch E2E tests workflow
       run: yarn test
+    - name: Send email on failure
+      if: failure()
+      uses: ./.github/actions/send-email
+      with:
+        api-key: ${{ secrets.OSS_BOT_MAILGUN_KEY }}
+        domain: ${{ secrets.OSS_BOT_MAILGUN_DOMAIN }}
+        from: 'GitHub <admin-github@${{ secrets.OSS_BOT_MAILGUN_DOMAIN }}>'
+        to: ${{ secrets.FIREBASE_NEXTJS_TESTS_GITHUB_EMAILS }}
+        subject: 'Nightly build of ${{github.repository}} failed!'
+        html: >
+          <b>The nightly workflow to test the Firebase JS SDK failed on: ${{github.repository}}</b>
+          <br /><br />Navigate to the
+          <a href="https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/runs/${{github.run_id}}">failed workflow</a>
+          to look further into what went wrong.
+      continue-on-error: true
