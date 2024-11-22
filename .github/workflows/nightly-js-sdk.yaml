@@ -75,10 +75,11 @@ jobs:
         api-key: ${{ secrets.OSS_BOT_MAILGUN_KEY }}
         domain: ${{ secrets.OSS_BOT_MAILGUN_DOMAIN }}
         from: 'GitHub <admin-github@${{ secrets.OSS_BOT_MAILGUN_DOMAIN }}>'
-        to: ${{ secrets.FIREBASE_NEXTJS_TESTS_GITHUB_EMAIL }}
+        to: ${{ secrets.FIREBASE_NEXTJS_TESTS_GITHUB_EMAILS }}
         subject: 'Nightly build ${{github.run_id}} of ${{github.repository}} failed!'
         html: >
           <b>Nightly workflow ${{github.run_id}} failed on: ${{github.repository}}</b>
+          <b>THIS IS ONLY A TEST</b>
           <br /><br />Navigate to the
           <a href="https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/runs/${{github.run_id}}">failed workflow</a>.
       continue-on-error: true
