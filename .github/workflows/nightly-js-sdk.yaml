@@ -46,7 +46,7 @@ jobs:
         PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
     - name: Yarn install
-      run: yarn --frozen-lockfile
+      run: yarn
     - name: Restore yarn build cache
       uses: actions/cache@v4
       with:      
