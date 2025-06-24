@@ -22,7 +22,7 @@ import ResultsDisplay from './results_display';
 
 export default function CsrTestRunner() {
   const [testStatus, setTestStatus] = useState<string>("running...");
-  const [testResults, setTestResults] = useState(initializeTestResults());
+  const [testResults, setTestResults] = useState(initializeTestResults(/* isServer= */ false));
   useEffect(() => {
     const asyncTest = async () => {
       setTestResults(await testFirestore(/* isServer= */ false));
