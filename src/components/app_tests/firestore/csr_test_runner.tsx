@@ -25,7 +25,7 @@ export default function CsrTestRunner() {
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testFirestore());
+      setTestResults(await testFirestore(/* isServer= */ false));
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {

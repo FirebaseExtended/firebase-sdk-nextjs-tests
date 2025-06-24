@@ -16,9 +16,23 @@
  */
 
 import { deleteApp, initializeApp } from 'firebase/app';
-import { doc, deleteDoc, getDoc, getFirestore, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  DocumentSnapshot,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+  onSnapshotResume,
+  query,
+  QuerySnapshot,
+  setDoc,
+  updateDoc
+} from 'firebase/firestore';
 import { firebaseConfig } from '@/lib/app_tests/firebase';
-import { OK, FAILED } from '@/lib/app_tests/util';
+import { OK, FAILED, OK_SKIPPED } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,
@@ -29,6 +43,11 @@ export type TestResults = {
   updateDocResult: string,
   onSnapshotUpdateDocResult: string,
   getDocResult: string,
+  querySnapshotResult: string,
+  documentSnapshotBundleResult: string,
+  querySnapshotBundleResult: string,
+  documentSnapshotOnSnapshotResumeResult: string,
+  querySnapshotOnSnapshotResumeResult: string,
   deleteDocResult: string,
   onSnapshotDeleteDocResult: string,
   getDeletedDocResult: string,
@@ -45,6 +64,11 @@ export function initializeTestResults(): TestResults {
     updateDocResult: FAILED,
     onSnapshotUpdateDocResult: FAILED,
     getDocResult: FAILED,
+    querySnapshotResult: FAILED,
+    documentSnapshotBundleResult: FAILED,
+    querySnapshotBundleResult: FAILED,
+    documentSnapshotOnSnapshotResumeResult: FAILED,
+    querySnapshotOnSnapshotResumeResult: FAILED,
     deleteDocResult: FAILED,
     onSnapshotDeleteDocResult: FAILED,
     getDeletedDocResult: FAILED,
@@ -52,7 +76,9 @@ export function initializeTestResults(): TestResults {
   };
 }
 
-export async function testFirestore(): Promise<TestResults> {
+export async function testFirestore(isServer: boolean = false): Promise<TestResults> {
+  const QUERY_PATH = 'nextJsTestCollection';
+  const DOCUMENT_PATH = QUERY_PATH + '/trueDoc';
   const result: TestResults = initializeTestResults();
   try {
     const firebaseApp = initializeApp(firebaseConfig);
@@ -67,7 +93,7 @@ export async function testFirestore(): Promise<TestResults> {
     }
     result.initializeFirestoreResult = OK;
 
-    const document = doc(firestore, 'testCollection/trueDoc');
+    const document = doc(firestore, DOCUMENT_PATH);
     if (document === null) {
       return result;
     }
@@ -123,6 +149,70 @@ export async function testFirestore(): Promise<TestResults> {
       if (docData && docData.testbool !== undefined && docData.testbool === false) {
         result.getDocResult = OK;
       }
+    }
+
+    const q = query(collection(firestore, QUERY_PATH));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length === 1) {
+      if (querySnapshot.docs[0].data().testbool === false) {
+        result.querySnapshotResult = OK;
+      }
+    }
+
+    // DocumentSnapshot bundle tests
+    if (isServer) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bundleJson = docSnapshot.toJSON() as any;
+      if (bundleJson.bundle !== undefined && bundleJson.bundle != "NOT SUPPORTED") {
+        result.documentSnapshotBundleResult = OK;
+      }
+
+      const bundleDocSnapshotPromise = new Promise<void>((resolve, reject) => {
+        let completed: boolean = false;
+        setTimeout(() => { if (!completed) reject(); }, 2000);
+        const unsubscribe = onSnapshotResume(firestore, bundleJson, (docSnapshot: DocumentSnapshot) => {
+          if (docSnapshot.exists()) {
+            const docData = docSnapshot.data();
+            if (docData && docData.testbool !== undefined && docData.testbool === false) {
+              unsubscribe();
+              result.documentSnapshotOnSnapshotResumeResult = OK;
+              completed = true;
+              resolve();
+            }
+          }
+        });
+      });
+      await bundleDocSnapshotPromise;
+    } else {
+      result.documentSnapshotBundleResult = OK_SKIPPED;
+      result.documentSnapshotOnSnapshotResumeResult = OK_SKIPPED;
+    }
+
+    // QuerySnapshot bundle tests
+    if (isServer) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const bundleJson = querySnapshot.toJSON() as any;
+      if (bundleJson.bundle !== undefined && bundleJson.bundle != "NOT SUPPORTED") {
+        result.querySnapshotBundleResult = OK;
+      }
+      const bundleQuerySnapshotPromise = new Promise<void>((resolve, reject) => {
+        let completed: boolean = false;
+        setTimeout(() => { if (!completed) reject(); }, 2000);
+        const unsubscribe = onSnapshotResume(firestore, bundleJson, (querySnapshot: QuerySnapshot) => {
+          if (querySnapshot.docs.length === 1) {
+            if (querySnapshot.docs[0].data().testbool === false) {
+              result.querySnapshotOnSnapshotResumeResult = OK;
+            }
+            unsubscribe();
+            completed = true;
+            resolve();
+          }
+        });
+      });
+      await bundleQuerySnapshotPromise;
+    } else {
+      result.querySnapshotBundleResult = OK_SKIPPED;
+      result.querySnapshotOnSnapshotResumeResult = OK_SKIPPED;
     }
 
     const deleteDocPromise = new Promise<void>((resolve, reject) => {

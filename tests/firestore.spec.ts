@@ -27,6 +27,11 @@ async function commonExpectations(page) {
   await expect(page.getByTitle('updateDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('onSnapshotUpdateDR')).not.toContainText("FAILED");
   await expect(page.getByTitle('getDocResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('documentSnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('documentSnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('onSnapshotDeleteDR')).not.toContainText("FAILED");
   await expect(page.getByTitle('getDeletedDocResult')).not.toContainText("FAILED");

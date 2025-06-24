@@ -27,6 +27,11 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="updateDocResult">updateDocResult: {testResults.updateDocResult}</h4>
       <h4 title="onSnapshotUpdateDR">onSnapshotUpdateDocResult: {testResults.onSnapshotUpdateDocResult}</h4>
       <h4 title="getDocResult">getDocResult: {testResults.getDocResult}</h4>
+      <h4 title="querySnapshotResult">querySnapshotResult: {testResults.querySnapshotResult}</h4>
+      <h4 title="documentSnapshotBundleResult">documentSnapshotBundleResult: {testResults.documentSnapshotBundleResult}</h4>
+      <h4 title="documentSnapshotOnSnapshotResumeResult">documentSnapshotOnSnapshotResumeResult: {testResults.documentSnapshotOnSnapshotResumeResult}</h4>
+      <h4 title="querySnapshotOnSnapshotResumeResult">querySnapshotOnSnapshotResumeResult: {testResults.querySnapshotOnSnapshotResumeResult}</h4>
+      <h4 title="querySnapshotBundleResult">querySnapshotBundleResult: {testResults.querySnapshotBundleResult}</h4>
       <h4 title="deleteDocResult">deleteDocResult: {testResults.deleteDocResult}</h4>
       <h4 title="onSnapshotDeleteDR">onSnapshotDeleteDocResult: {testResults.onSnapshotDeleteDocResult}</h4>
       <h4 title="getDeletedDocResult">getDeletedDocResult: {testResults.getDeletedDocResult}</h4>
