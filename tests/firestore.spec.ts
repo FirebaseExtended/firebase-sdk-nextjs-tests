@@ -29,13 +29,21 @@ async function commonExpectations(page) {
   await expect(page.getByTitle('getDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('querySnapshotResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('documentSnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('reconstitutedDocDataResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('querySnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('reconstitutedQueryDataResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('documentSnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('querySnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('onSnapshotDeleteDR')).not.toContainText("FAILED");
   await expect(page.getByTitle('getDeletedDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
+  
+  // Client side tests
+  await expect(page.getByTitle('clientSideDocumentSnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideDocumentSnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideQuerySnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideQuerySnapshotOnResumeResult')).not.toContainText("FAILED");
 }
 
 test('firestore operations should pass - client', async ({ page, baseURL }) => {
