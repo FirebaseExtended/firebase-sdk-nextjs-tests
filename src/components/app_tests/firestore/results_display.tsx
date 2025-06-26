@@ -27,7 +27,7 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="updateDocResult">updateDocResult: {testResults.updateDocResult}</h4>
       <h4 title="onSnapshotUpdateDR">onSnapshotUpdateDocResult: {testResults.onSnapshotUpdateDocResult}</h4>
       <h4 title="getDocResult">getDocResult: {testResults.getDocResult}</h4>
-      <h4 title="querySnapshotResult">querySnapshotResult: {testResults.querySnapshotResult}</h4>
+      <h4 title="querySnapshotGetDocsResult">querySnapshotGetDocsResult: {testResults.querySnapshotGetDocsResult}</h4>
       <h4 title="documentSnapshotBundleResult">documentSnapshotBundleResult: {testResults.documentSnapshotBundleResult}</h4>
       <h4 title="reconstitutedDocDataResult">reconstitutedDocDataResult: {testResults.reconstitutedDocDataResult}</h4>
       <h4 title="documentSnapshotOnSnapshotResumeResult">documentSnapshotOnSnapshotResumeResult: {testResults.documentSnapshotOnSnapshotResumeResult}</h4>

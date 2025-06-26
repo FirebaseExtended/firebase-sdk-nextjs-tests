@@ -17,7 +17,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { deleteApp, initializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { testFirestore, initializeTestResults, SerializedFirestoreData, TestResults } from '@/lib/app_tests/firestore/test';
 import ResultsDisplay from './results_display';
 import {
@@ -67,7 +67,6 @@ async function runDeserializationTests(
         (docSnapshot: DocumentSnapshot
         ) => {
           if (docSnapshot.exists()) {
-            const docData = docSnapshot.data();
             if (validateDocumentData(docSnapshot.data())) {
               unsubscribe();
               testResults.clientSideDocumentSnapshotOnResumeResult = OK;

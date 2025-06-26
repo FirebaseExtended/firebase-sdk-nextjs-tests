@@ -46,7 +46,7 @@ export type TestResults = {
   updateDocResult: string,
   onSnapshotUpdateDocResult: string,
   getDocResult: string,
-  querySnapshotResult: string,
+  querySnapshotGetDocsResult: string,
   documentSnapshotBundleResult: string,
   reconstitutedDocDataResult: string,
   querySnapshotBundleResult: string,
@@ -75,7 +75,7 @@ export function initializeTestResults(): TestResults {
     updateDocResult: FAILED,
     onSnapshotUpdateDocResult: FAILED,
     getDocResult: FAILED,
-    querySnapshotResult: FAILED,
+    querySnapshotGetDocsResult: FAILED,
     documentSnapshotBundleResult: FAILED,
     reconstitutedDocDataResult: FAILED,
     querySnapshotBundleResult: FAILED,
@@ -231,7 +231,7 @@ export async function testFirestore(isServer: boolean = false): Promise<TestResu
     const querySnapshot = await getDocs(q);
     if (querySnapshot.docs.length === 1) {
       if (querySnapshot.docs[0].data().testbool === false) {
-        result.querySnapshotResult = OK;
+        result.querySnapshotGetDocsResult = OK;
       }
     }
 
