@@ -40,15 +40,15 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
       
       <h3> CSR-side deserialization tests </h3>
-      <h4 title="clientSideDocumentSnapshotResult">clientSideDocumentSnapshotResult: {testResults.clientSideDocumentSnapshotResult}</h4>
-      <h4 title="clientSideDocumentSnapshotOnResumeResult">clientSideDocumentSnapshotOnResumeResult: {testResults.clientSideDocumentSnapshotOnResumeResult}</h4>
-      <h4 title="clientSideQuerySnapshotResult">clientSideQuerySnapshotResult: {testResults.clientSideQuerySnapshotResult}</h4>
-      <h4 title="clientSideQuerySnapshotOnResumeResult">clientSideQuerySnapshotOnResumeResult: {testResults.clientSideQuerySnapshotOnResumeResult}</h4>
-      <h4 title="clientSideDeserializedBytesResult">clientSideDeserializedBytesResult: {testResults.clientSideDeserializedBytesResult}</h4>
-      <h4 title="clientSideDeserializedGeoPointResult">clientSideDeserializedGeoPointResult: {testResults.clientSideDeserializedGeoPointResult}</h4>
-      <h4 title="clientSideDeserializedTimestampResult">clientSideDeserializedTimestampResult: {testResults.clientSideDeserializedTimestampResult}</h4>
-      <h4 title="clientSideDeserializedVectorValueResult">clientSideDeserializedVectorValueResult: {testResults.clientSideDeserializedVectorValueResult}</h4>
-            
+      <h4 title="csrDocumentSnapshotResult">csrDocumentSnapshotResult: {testResults.csrDocumentSnapshotResult}</h4>
+      <h4 title="csrDocumentSnapshotOnResumeResult">csrDocumentSnapshotOnResumeResult: {testResults.csrDocumentSnapshotOnResumeResult}</h4>
+      <h4 title="csrQuerySnapshotResult">csrQuerySnapshotResult: {testResults.csrQuerySnapshotResult}</h4>
+      <h4 title="csrQuerySnapshotOnResumeResult">csrQuerySnapshotOnResumeResult: {testResults.csrQuerySnapshotOnResumeResult}</h4>
+      <h4 title="csrDeserializedBytesResult">csrDeserializedBytesResult: {testResults.csrDeserializedBytesResult}</h4>
+      <h4 title="csrDeserializedGeoPointResult">csrDeserializedGeoPointResult: {testResults.csrDeserializedGeoPointResult}</h4>
+      <h4 title="csrDeserializedTimestampResult">csrDeserializedTimestampResult: {testResults.csrDeserializedTimestampResult}</h4>
+      <h4 title="csrDeserializedVectorValueResult">csrDeserializedVectorValueResult: {testResults.csrDeserializedVectorValueResult}</h4>
+
       <p />
       <Link href="/">Back to test index</Link>
     </>

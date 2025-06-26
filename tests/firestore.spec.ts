@@ -40,14 +40,14 @@ async function commonExpectations(page) {
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
   
   // Client side tests
-  await expect(page.getByTitle('clientSideDocumentSnapshotResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideDocumentSnapshotOnResumeResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideQuerySnapshotResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideQuerySnapshotOnResumeResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideDeserializedBytesResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideDeserializedGeoPointResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideDeserializedTimestampResult')).not.toContainText("FAILED");
-  await expect(page.getByTitle('clientSideDeserializedVectorValueResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDocumentSnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDocumentSnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrQuerySnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrQuerySnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedBytesResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedGeoPointResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedTimestampResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedVectorValueResult')).not.toContainText("FAILED");
 }
 
 test('firestore operations should pass - client', async ({ page, baseURL }) => {

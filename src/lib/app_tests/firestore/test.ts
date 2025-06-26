@@ -42,7 +42,24 @@ import {
 import { firebaseConfig } from '@/lib/app_tests/firebase';
 import { OK, FAILED, OK_SKIPPED } from '@/lib/app_tests/util';
 
+
+// Data used to create and validate Firestore data types for
+// toJSON/fromJSON tests.
+const BYTES_DATA : Uint8Array = new Uint8Array([0, 1, 2, 3, 4, 5]);
+const GEOPOINT_LATITTUDE : number = 1;
+const GEOPOINT_LONGITITUDE : number  = 2;
+const TIMESTAMP_SECONDS : number = 123;
+const TIMESTAMP_NANOSECONDS : number= 456;
+const VECTOR_NUM_ARRAY : number[]= [1, 2, 3];
+
+
+/**
+ * A structure that contains all of the results that playwright will ensure
+ * are set to OK.  Note that TestResults needs to be a simple object (and
+ * not a class) so that it may be passed across the SSR / CSR divide
+ */
 export type TestResults = {
+  // Tests that are done in both the SSR and CSR phase.
   initializeAppResult: string,
   initializeFirestoreResult: string,
   createDocInstanceResult: string,
@@ -63,19 +80,25 @@ export type TestResults = {
   getDeletedDocResult: string,
   deleteAppResult: string,
 
-  // Checks for the CSR phase
-  clientSideDocumentSnapshotResult: string,
-  clientSideDocumentSnapshotOnResumeResult: string,
-  clientSideQuerySnapshotResult: string
-  clientSideQuerySnapshotOnResumeResult: string,
-  clientSideDeserializedBytesResult: string,
-  clientSideDeserializedGeoPointResult: string,
-  clientSideDeserializedTimestampResult: string,
-  clientSideDeserializedVectorValueResult: string
+  // Tests that are only specific to the desrialization of Firestore
+  // types within the CSR phase.
+  csrDocumentSnapshotResult: string,
+  csrDocumentSnapshotOnResumeResult: string,
+  csrQuerySnapshotResult: string
+  csrQuerySnapshotOnResumeResult: string,
+  csrDeserializedBytesResult: string,
+  csrDeserializedGeoPointResult: string,
+  csrDeserializedTimestampResult: string,
+  csrDeserializedVectorValueResult: string
 };
 
+/**
+ * Returns a {@link TestResults} initialized with a failure condition for
+ * all fields.
+ */
 export function initializeTestResults(): TestResults {
   return {
+    // SSR & CSR tests.
     initializeAppResult: FAILED,
     initializeFirestoreResult: FAILED,
     createDocInstanceResult: FAILED,
@@ -96,18 +119,22 @@ export function initializeTestResults(): TestResults {
     getDeletedDocResult: FAILED,
     deleteAppResult: FAILED,
 
-    // Checks for the CSR phase
-    clientSideDocumentSnapshotResult: FAILED,
-    clientSideDocumentSnapshotOnResumeResult: FAILED,
-    clientSideQuerySnapshotResult: FAILED,
-    clientSideQuerySnapshotOnResumeResult: FAILED,
-    clientSideDeserializedBytesResult: FAILED,
-    clientSideDeserializedGeoPointResult: FAILED,
-    clientSideDeserializedTimestampResult: FAILED,
-    clientSideDeserializedVectorValueResult: FAILED
+    // CSR only tests.
+    csrDocumentSnapshotResult: FAILED,
+    csrDocumentSnapshotOnResumeResult: FAILED,
+    csrQuerySnapshotResult: FAILED,
+    csrQuerySnapshotOnResumeResult: FAILED,
+    csrDeserializedBytesResult: FAILED,
+    csrDeserializedGeoPointResult: FAILED,
+    csrDeserializedTimestampResult: FAILED,
+    csrDeserializedVectorValueResult: FAILED
   };
 }
 
+/**
+ * Used by the 'firestore/web_client/page.tsx' to pass serialized
+ * data from the SSR pahse to the CSR phase.
+ */
 export type SerializedFirestoreData = {
   documentSnapshotJson: object | null,
   querySnapshotJson: object | null,
@@ -117,7 +144,11 @@ export type SerializedFirestoreData = {
   vectorValueJson: object | null
 }
 
-export async function setExpectedSerializedDataInFirestore(firestore, path) {
+/**
+ * Util function that ensures the document in the Firestore service instance
+ * is of the same type as we expect in these tests.
+ */
+async function setExpectedSerializedDataInFirestore(firestore, path) {
   const docRef = doc(firestore, path);
 
   await setDoc(docRef, {
@@ -128,6 +159,16 @@ export async function setExpectedSerializedDataInFirestore(firestore, path) {
   });
 }
 
+/**
+ * Returns a populated {@link SerializedFirestoreData} with Json serialized data.
+ * This data can be validated by invoking {@link testSerializedFirestoreData}.
+ * 
+ * The intended flow is for the CSR tests to render a page with both SSR and CSR logic.
+ * The SSR logic builds out this serialized data. The data is then passed to the CSR
+ * phase via Next JS component parameters. The CSR component then invokes {@link
+ * testSerializedFirestoreData} to deserialized the data and ensure it matches
+ * the expected values.
+ */
 export async function buildSerializedFirestoreData(): Promise<SerializedFirestoreData> {
   const QUERY_PATH = '/nextJsTestStaticCollection_DoNotDelete';
   const DOCUMENT_PATH = QUERY_PATH + '/doc';
@@ -157,30 +198,152 @@ export async function buildSerializedFirestoreData(): Promise<SerializedFirestor
     result.querySnapshotJson = querySnapshot.toJSON();
   }
 
-  result.bytesJson = Bytes.fromUint8Array(new Uint8Array([0, 1, 2, 3, 4, 5])).toJSON();
-  result.geoPointJson = new GeoPoint(1, 2).toJSON();
-  result.timestampJson = new Timestamp(123, 456).toJSON();
-  const num: number[] = [1, 2, 3];
-
-  result.vectorValueJson = vector(num).toJSON();
+  result.bytesJson = Bytes.fromUint8Array(BYTES_DATA).toJSON();
+  result.geoPointJson = new GeoPoint(GEOPOINT_LATITTUDE, GEOPOINT_LONGITITUDE).toJSON();
+  result.timestampJson = new Timestamp(TIMESTAMP_SECONDS, TIMESTAMP_NANOSECONDS).toJSON();
+  result.vectorValueJson = vector(VECTOR_NUM_ARRAY).toJSON();
 
   return result;
 }
 
+/**
+ * 
+ * @param testResults the state tests that may have already been executed.
+ * @param serializedFirestoreData an instance of the data that was JSON serialized
+ * in the SSR phase.
+ * @returns the TestResults object updated with the results of these tests.
+ */
+export async function testSerializedFirestoreData(
+  testResults: TestResults,
+  serializedFirestoreData: SerializedFirestoreData
+): Promise<TestResults> {
+  const firebase = initializeApp(firebaseConfig);
+  const firestore = getFirestore(firebase);
+
+  // DocumentSnapshotTests
+  if (serializedFirestoreData.documentSnapshotJson != null) {
+    const snapshot = documentSnapshotFromJSON(firestore, serializedFirestoreData.documentSnapshotJson);
+    const data = snapshot.data();
+    if (validateDocumentData(data)) {
+      testResults.csrDocumentSnapshotResult = OK;
+    }
+
+    // onResume Test
+    const bundleDocSnapshotPromise = new Promise<void>((resolve, reject) => {
+      let completed: boolean = false;
+      setTimeout(() => { if (!completed) reject(); }, 2000);
+      const unsubscribe = onSnapshotResume(
+        firestore,
+        serializedFirestoreData.documentSnapshotJson!,
+        (docSnapshot: DocumentSnapshot
+        ) => {
+          if (docSnapshot.exists()) {
+            if (validateDocumentData(docSnapshot.data())) {
+              unsubscribe();
+              testResults.csrDocumentSnapshotOnResumeResult = OK;
+              completed = true;
+              resolve();
+            }
+          }
+        });
+    });
+    await bundleDocSnapshotPromise;
+  }
+
+  // QuerySnapshotTests
+  if (serializedFirestoreData.querySnapshotJson != null) {
+    const snapshot = querySnapshotFromJSON(firestore, serializedFirestoreData.querySnapshotJson);
+    if (snapshot.docs.length === 1 && validateDocumentData(snapshot.docs[0].data())) {
+      testResults.csrQuerySnapshotResult = OK;
+    }
+
+    // onResume test
+    const bundleQuerySnapshotPromise = new Promise<void>((resolve, reject) => {
+      let completed: boolean = false;
+      setTimeout(() => { if (!completed) reject(); }, 2000);
+      const unsubscribe = onSnapshotResume(
+        firestore,
+        serializedFirestoreData.querySnapshotJson!,
+        (querySnapshot: QuerySnapshot
+        ) => {
+          if (querySnapshot.docs.length === 1 && validateDocumentData(querySnapshot.docs[0].data())) {
+            testResults.csrQuerySnapshotOnResumeResult = OK;
+            unsubscribe();
+            completed = true;
+            resolve();
+          }
+        });
+    });
+    await bundleQuerySnapshotPromise;
+  }
+
+  // Other data type tests.
+  if(serializedFirestoreData.bytesJson !== null) {
+    const bytes = Bytes.fromJSON(serializedFirestoreData.bytesJson);
+    if(bytes.isEqual(Bytes.fromUint8Array(BYTES_DATA))) {
+      testResults.csrDeserializedBytesResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.geoPointJson !== null) {
+    const geoPoint = GeoPoint.fromJSON(serializedFirestoreData.geoPointJson);
+    if(geoPoint.latitude === GEOPOINT_LATITTUDE && geoPoint.longitude === GEOPOINT_LONGITITUDE) {
+      testResults.csrDeserializedGeoPointResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.timestampJson !== null) {
+    const timestamp = Timestamp.fromJSON(serializedFirestoreData.timestampJson);
+    if(timestamp.seconds === TIMESTAMP_SECONDS && timestamp.nanoseconds === TIMESTAMP_NANOSECONDS) { 
+      testResults.csrDeserializedTimestampResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.vectorValueJson !== null) {
+    const deserializedVectorValue = VectorValue.fromJSON(serializedFirestoreData.vectorValueJson);
+    const controlVectorValue = vector(VECTOR_NUM_ARRAY);
+    if(deserializedVectorValue.isEqual(controlVectorValue)) {
+      testResults.csrDeserializedVectorValueResult =  OK;
+    }
+  }
+  
+  return testResults;
+}
+
+/**
+ * Ensures the content of the document queried from Firestore matches the
+ * format that the tests expect.
+ */
+export function validateDocumentData(documentData): boolean {
+  if (documentData !== undefined) {
+    if (
+      documentData.aBoolean && documentData.aBoolean === true &&
+      documentData.aName && documentData.aName === "A name" &&
+      documentData.anInteger && documentData.anInteger === 1234) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+/**
+ * The standard playwright tests.
+ */
 export async function testFirestore(isServer: boolean = false): Promise<TestResults> {
   const QUERY_PATH = '/nextJsTestDynamicCollection';
   const DOCUMENT_PATH = QUERY_PATH + '/trueDoc';
   const result: TestResults = initializeTestResults();
 
   if (isServer) {
-    result.clientSideDocumentSnapshotResult = OK_SKIPPED;
-    result.clientSideDocumentSnapshotOnResumeResult = OK_SKIPPED;
-    result.clientSideQuerySnapshotResult = OK_SKIPPED;
-    result.clientSideQuerySnapshotOnResumeResult = OK_SKIPPED;
-    result.clientSideDeserializedBytesResult = OK_SKIPPED;
-    result.clientSideDeserializedGeoPointResult = OK_SKIPPED;
-    result.clientSideDeserializedTimestampResult = OK_SKIPPED;
-    result.clientSideDeserializedVectorValueResult = OK_SKIPPED;
+    result.csrDocumentSnapshotResult = OK_SKIPPED;
+    result.csrDocumentSnapshotOnResumeResult = OK_SKIPPED;
+    result.csrQuerySnapshotResult = OK_SKIPPED;
+    result.csrQuerySnapshotOnResumeResult = OK_SKIPPED;
+    result.csrDeserializedBytesResult = OK_SKIPPED;
+    result.csrDeserializedGeoPointResult = OK_SKIPPED;
+    result.csrDeserializedTimestampResult = OK_SKIPPED;
+    result.csrDeserializedVectorValueResult = OK_SKIPPED;
   }
 
   try {
