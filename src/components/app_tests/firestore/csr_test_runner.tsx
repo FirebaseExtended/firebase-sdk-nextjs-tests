@@ -21,12 +21,18 @@ import { initializeApp } from 'firebase/app';
 import { testFirestore, initializeTestResults, SerializedFirestoreData, TestResults } from '@/lib/app_tests/firestore/test';
 import ResultsDisplay from './results_display';
 import {
+  Bytes,
   DocumentSnapshot,
+  documentSnapshotFromJSON,
   getFirestore,
+  GeoPoint,
+  Timestamp,
   onSnapshotResume,
   QuerySnapshot,
-  documentSnapshotFromJSON,
-  querySnapshotFromJSON
+  querySnapshotFromJSON,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  VectorValue,
+  vector
 } from 'firebase/firestore';
 import { firebaseConfig } from '@/lib/app_tests/firebase';
 import { OK } from '@/lib/app_tests/util';
@@ -105,6 +111,37 @@ async function runDeserializationTests(
     });
     await bundleQuerySnapshotPromise;
   }
+
+  if(serializedFirestoreData.bytesJson !== null) {
+    const bytes = Bytes.fromJSON(serializedFirestoreData.bytesJson);
+    if(bytes.isEqual(Bytes.fromUint8Array(new Uint8Array([0, 1, 2, 3, 4, 5])))) {
+      testResults.clientSideDeserializedBytesResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.geoPointJson !== null) {
+    const geoPoint = GeoPoint.fromJSON(serializedFirestoreData.geoPointJson);
+    if(geoPoint.latitude === 1 && geoPoint.longitude === 2) {
+      testResults.clientSideDeserializedGeoPointResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.timestampJson !== null) {
+    const timestamp = Timestamp.fromJSON(serializedFirestoreData.timestampJson);
+    if(timestamp.seconds === 123 && timestamp.nanoseconds === 456) { 
+      testResults.clientSideDeserializedTimestampResult = OK;
+    }
+  }
+
+  if(serializedFirestoreData.vectorValueJson !== null) {
+    const num: number[] = [1, 2, 3];
+    const deserializedVectorValue = VectorValue.fromJSON(serializedFirestoreData.vectorValueJson);
+    const controlVectorValue = vector(num);
+    if(deserializedVectorValue.isEqual(controlVectorValue)) {
+      testResults.clientSideDeserializedVectorValueResult =  OK;
+    }
+  }
+  
   return testResults;
 }
 

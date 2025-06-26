@@ -44,6 +44,10 @@ async function commonExpectations(page) {
   await expect(page.getByTitle('clientSideDocumentSnapshotOnResumeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('clientSideQuerySnapshotResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('clientSideQuerySnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideDeserializedBytesResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideDeserializedGeoPointResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideDeserializedTimestampResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('clientSideDeserializedVectorValueResult')).not.toContainText("FAILED");
 }
 
 test('firestore operations should pass - client', async ({ page, baseURL }) => {

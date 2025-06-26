@@ -17,22 +17,27 @@
 
 import { deleteApp, initializeApp } from 'firebase/app';
 import {
+  Bytes,
   collection,
   DocumentSnapshot,
   deleteDoc,
   doc,
   documentSnapshotFromJSON,
+  GeoPoint,
   getDoc,
   getDocs,
   getFirestore,
   onSnapshot,
   onSnapshotResume,
+  QuerySnapshot,
   query,
   querySnapshotFromJSON,
-  QuerySnapshot,
   setDoc,
+  Timestamp,
   updateDoc,
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  VectorValue,
+  vector
 } from 'firebase/firestore';
 import { firebaseConfig } from '@/lib/app_tests/firebase';
 import { OK, FAILED, OK_SKIPPED } from '@/lib/app_tests/util';
@@ -63,6 +68,10 @@ export type TestResults = {
   clientSideDocumentSnapshotOnResumeResult: string,
   clientSideQuerySnapshotResult: string
   clientSideQuerySnapshotOnResumeResult: string,
+  clientSideDeserializedBytesResult: string,
+  clientSideDeserializedGeoPointResult: string,
+  clientSideDeserializedTimestampResult: string,
+  clientSideDeserializedVectorValueResult: string
 };
 
 export function initializeTestResults(): TestResults {
@@ -91,13 +100,21 @@ export function initializeTestResults(): TestResults {
     clientSideDocumentSnapshotResult: FAILED,
     clientSideDocumentSnapshotOnResumeResult: FAILED,
     clientSideQuerySnapshotResult: FAILED,
-    clientSideQuerySnapshotOnResumeResult: FAILED
+    clientSideQuerySnapshotOnResumeResult: FAILED,
+    clientSideDeserializedBytesResult: FAILED,
+    clientSideDeserializedGeoPointResult: FAILED,
+    clientSideDeserializedTimestampResult: FAILED,
+    clientSideDeserializedVectorValueResult: FAILED
   };
 }
 
 export type SerializedFirestoreData = {
   documentSnapshotJson: object | null,
   querySnapshotJson: object | null,
+  bytesJson: object | null,
+  geoPointJson: object | null,
+  timestampJson: object | null,
+  vectorValueJson: object | null
 }
 
 export async function setExpectedSerializedDataInFirestore(firestore, path) {
@@ -116,7 +133,11 @@ export async function buildSerializedFirestoreData(): Promise<SerializedFirestor
   const DOCUMENT_PATH = QUERY_PATH + '/doc';
   const result: SerializedFirestoreData = {
     documentSnapshotJson: null,
-    querySnapshotJson: null
+    querySnapshotJson: null,
+    bytesJson: null,
+    geoPointJson: null,
+    timestampJson: null,
+    vectorValueJson: null
   };
 
   const firebaseApp = initializeApp(firebaseConfig);
@@ -136,6 +157,13 @@ export async function buildSerializedFirestoreData(): Promise<SerializedFirestor
     result.querySnapshotJson = querySnapshot.toJSON();
   }
 
+  result.bytesJson = Bytes.fromUint8Array(new Uint8Array([0, 1, 2, 3, 4, 5])).toJSON();
+  result.geoPointJson = new GeoPoint(1, 2).toJSON();
+  result.timestampJson = new Timestamp(123, 456).toJSON();
+  const num: number[] = [1, 2, 3];
+
+  result.vectorValueJson = vector(num).toJSON();
+
   return result;
 }
 
@@ -149,6 +177,10 @@ export async function testFirestore(isServer: boolean = false): Promise<TestResu
     result.clientSideDocumentSnapshotOnResumeResult = OK_SKIPPED;
     result.clientSideQuerySnapshotResult = OK_SKIPPED;
     result.clientSideQuerySnapshotOnResumeResult = OK_SKIPPED;
+    result.clientSideDeserializedBytesResult = OK_SKIPPED;
+    result.clientSideDeserializedGeoPointResult = OK_SKIPPED;
+    result.clientSideDeserializedTimestampResult = OK_SKIPPED;
+    result.clientSideDeserializedVectorValueResult = OK_SKIPPED;
   }
 
   try {

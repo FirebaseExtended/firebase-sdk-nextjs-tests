@@ -44,7 +44,11 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="clientSideDocumentSnapshotOnResumeResult">clientSideDocumentSnapshotOnResumeResult: {testResults.clientSideDocumentSnapshotOnResumeResult}</h4>
       <h4 title="clientSideQuerySnapshotResult">clientSideQuerySnapshotResult: {testResults.clientSideQuerySnapshotResult}</h4>
       <h4 title="clientSideQuerySnapshotOnResumeResult">clientSideQuerySnapshotOnResumeResult: {testResults.clientSideQuerySnapshotOnResumeResult}</h4>
-      
+      <h4 title="clientSideDeserializedBytesResult">clientSideDeserializedBytesResult: {testResults.clientSideDeserializedBytesResult}</h4>
+      <h4 title="clientSideDeserializedGeoPointResult">clientSideDeserializedGeoPointResult: {testResults.clientSideDeserializedGeoPointResult}</h4>
+      <h4 title="clientSideDeserializedTimestampResult">clientSideDeserializedTimestampResult: {testResults.clientSideDeserializedTimestampResult}</h4>
+      <h4 title="clientSideDeserializedVectorValueResult">clientSideDeserializedVectorValueResult: {testResults.clientSideDeserializedVectorValueResult}</h4>
+            
       <p />
       <Link href="/">Back to test index</Link>
     </>
