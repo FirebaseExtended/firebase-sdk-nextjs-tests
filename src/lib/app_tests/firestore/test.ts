@@ -80,7 +80,7 @@ export type TestResults = {
   getDeletedDocResult: string,
   deleteAppResult: string,
 
-  // Tests that are only specific to the desrialization of Firestore
+  // Tests that are only specific to the deserialization of Firestore
   // types within the CSR phase.
   csrDocumentSnapshotResult: string,
   csrDocumentSnapshotOnResumeResult: string,
@@ -146,7 +146,7 @@ export type SerializedFirestoreData = {
 
 /**
  * Util function that ensures the document in the Firestore service instance
- * is of the same type as we expect in these tests.
+ * is of the same shape as this version of the tests expect.
  */
 async function setExpectedSerializedDataInFirestore(firestore, path) {
   const docRef = doc(firestore, path);
@@ -160,14 +160,14 @@ async function setExpectedSerializedDataInFirestore(firestore, path) {
 }
 
 /**
- * Returns a populated {@link SerializedFirestoreData} with Json serialized data.
+ * Returns a populated {@link SerializedFirestoreData} with JSON serialized data.
  * This data can be validated by invoking {@link testSerializedFirestoreData}.
  * 
  * The intended flow is for the CSR tests to render a page with both SSR and CSR logic.
- * The SSR logic builds out this serialized data. The data is then passed to the CSR
+ * The SSR logic builds out this serialized data which is then passed to the CSR
  * phase via Next JS component parameters. The CSR component then invokes {@link
- * testSerializedFirestoreData} to deserialized the data and ensure it matches
- * the expected values.
+ * testSerializedFirestoreData} to deserialized the data and test it to ensure it
+ * matches the expected values.
  */
 export async function buildSerializedFirestoreData(): Promise<SerializedFirestoreData> {
   const QUERY_PATH = '/nextJsTestStaticCollection_DoNotDelete';
@@ -207,6 +207,9 @@ export async function buildSerializedFirestoreData(): Promise<SerializedFirestor
 }
 
 /**
+ * Tests that the Firestore objects can be desieralized and that their values
+ * match the original values that they were serialized from. See
+ * {@link buildSerializedFirestoreData} for more information.
  * 
  * @param testResults the state tests that may have already been executed.
  * @param serializedFirestoreData an instance of the data that was JSON serialized
@@ -312,7 +315,7 @@ export async function testSerializedFirestoreData(
 
 /**
  * Ensures the content of the document queried from Firestore matches the
- * format that the tests expect.
+ * format the tests expect.
  */
 export function validateDocumentData(documentData): boolean {
   if (documentData !== undefined) {
