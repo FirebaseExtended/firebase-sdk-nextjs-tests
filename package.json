@@ -12,7 +12,7 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "firebase": "canary",
+    "firebase": "next",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
