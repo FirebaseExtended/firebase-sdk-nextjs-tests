@@ -27,10 +27,28 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="updateDocResult">updateDocResult: {testResults.updateDocResult}</h4>
       <h4 title="onSnapshotUpdateDR">onSnapshotUpdateDocResult: {testResults.onSnapshotUpdateDocResult}</h4>
       <h4 title="getDocResult">getDocResult: {testResults.getDocResult}</h4>
+      <h4 title="querySnapshotGetDocsResult">querySnapshotGetDocsResult: {testResults.querySnapshotGetDocsResult}</h4>
+      <h4 title="documentSnapshotBundleResult">documentSnapshotBundleResult: {testResults.documentSnapshotBundleResult}</h4>
+      <h4 title="reconstitutedDocDataResult">reconstitutedDocDataResult: {testResults.reconstitutedDocDataResult}</h4>
+      <h4 title="documentSnapshotOnSnapshotResumeResult">documentSnapshotOnSnapshotResumeResult: {testResults.documentSnapshotOnSnapshotResumeResult}</h4>
+      <h4 title="querySnapshotOnSnapshotResumeResult">querySnapshotOnSnapshotResumeResult: {testResults.querySnapshotOnSnapshotResumeResult}</h4>
+      <h4 title="querySnapshotBundleResult">querySnapshotBundleResult: {testResults.querySnapshotBundleResult}</h4>
+      <h4 title="reconstitutedQueryDataResult">reconstitutedQueryDataResult: {testResults.reconstitutedQueryDataResult}</h4>
       <h4 title="deleteDocResult">deleteDocResult: {testResults.deleteDocResult}</h4>
       <h4 title="onSnapshotDeleteDR">onSnapshotDeleteDocResult: {testResults.onSnapshotDeleteDocResult}</h4>
       <h4 title="getDeletedDocResult">getDeletedDocResult: {testResults.getDeletedDocResult}</h4>
       <h4 title="deleteAppResult">deleteAppResult: {testResults.deleteAppResult}</h4>
+      
+      <h3> CSR-side deserialization tests </h3>
+      <h4 title="csrDocumentSnapshotResult">csrDocumentSnapshotResult: {testResults.csrDocumentSnapshotResult}</h4>
+      <h4 title="csrDocumentSnapshotOnResumeResult">csrDocumentSnapshotOnResumeResult: {testResults.csrDocumentSnapshotOnResumeResult}</h4>
+      <h4 title="csrQuerySnapshotResult">csrQuerySnapshotResult: {testResults.csrQuerySnapshotResult}</h4>
+      <h4 title="csrQuerySnapshotOnResumeResult">csrQuerySnapshotOnResumeResult: {testResults.csrQuerySnapshotOnResumeResult}</h4>
+      <h4 title="csrDeserializedBytesResult">csrDeserializedBytesResult: {testResults.csrDeserializedBytesResult}</h4>
+      <h4 title="csrDeserializedGeoPointResult">csrDeserializedGeoPointResult: {testResults.csrDeserializedGeoPointResult}</h4>
+      <h4 title="csrDeserializedTimestampResult">csrDeserializedTimestampResult: {testResults.csrDeserializedTimestampResult}</h4>
+      <h4 title="csrDeserializedVectorValueResult">csrDeserializedVectorValueResult: {testResults.csrDeserializedVectorValueResult}</h4>
+
       <p />
       <Link href="/">Back to test index</Link>
     </>

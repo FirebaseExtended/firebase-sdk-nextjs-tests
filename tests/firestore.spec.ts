@@ -27,10 +27,27 @@ async function commonExpectations(page) {
   await expect(page.getByTitle('updateDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('onSnapshotUpdateDR')).not.toContainText("FAILED");
   await expect(page.getByTitle('getDocResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('documentSnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('reconstitutedDocDataResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotBundleResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('reconstitutedQueryDataResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('documentSnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('querySnapshotOnSnapshotResumeResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('onSnapshotDeleteDR')).not.toContainText("FAILED");
   await expect(page.getByTitle('getDeletedDocResult')).not.toContainText("FAILED");
   await expect(page.getByTitle('deleteAppResult')).not.toContainText("FAILED");
+  
+  // Client side tests
+  await expect(page.getByTitle('csrDocumentSnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDocumentSnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrQuerySnapshotResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrQuerySnapshotOnResumeResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedBytesResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedGeoPointResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedTimestampResult')).not.toContainText("FAILED");
+  await expect(page.getByTitle('csrDeserializedVectorValueResult')).not.toContainText("FAILED");
 }
 
 test('firestore operations should pass - client', async ({ page, baseURL }) => {

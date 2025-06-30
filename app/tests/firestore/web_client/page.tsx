@@ -16,16 +16,21 @@
  */
 import type { Metadata } from 'next'
 import CSRTestRunner from '@/components/app_tests/firestore/csr_test_runner';
+import {
+  buildSerializedFirestoreData,
+  SerializedFirestoreData
+} from '@/lib/app_tests/firestore/test';
 
 export const metadata: Metadata = {
   title: 'Firestore Web SDK CSR test'
 }
 
-export default function Page() {
+export default async function Page() {
+  const serializedFirestoreData : SerializedFirestoreData = await buildSerializedFirestoreData();
   return (
     <>
       <h1>Firestore CSR Test results:</h1>
-      <CSRTestRunner />
+      <CSRTestRunner serializedFirestoreData={serializedFirestoreData} />
     </>
   );
 }

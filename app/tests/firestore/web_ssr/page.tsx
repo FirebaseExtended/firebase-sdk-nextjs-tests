@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page() {
-  const testResults: TestResults = await testFirestore();
+  const testResults: TestResults = await testFirestore(/* isServer= */ true);
   return (
     <>
       <h1>Firestore SSR Test results:</h1>

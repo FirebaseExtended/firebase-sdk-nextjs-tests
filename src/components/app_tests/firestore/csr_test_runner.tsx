@@ -17,22 +17,27 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { testFirestore, initializeTestResults } from '@/lib/app_tests/firestore/test';
+import {
+  initializeTestResults,
+  testSerializedFirestoreData,
+  testFirestore } from '@/lib/app_tests/firestore/test';
 import ResultsDisplay from './results_display';
 
-export default function CsrTestRunner() {
+export default function CsrTestRunner(props) {
   const [testStatus, setTestStatus] = useState<string>("running...");
   const [testResults, setTestResults] = useState(initializeTestResults());
   useEffect(() => {
     const asyncTest = async () => {
-      setTestResults(await testFirestore());
+      let testResults = await testFirestore(/* isServer= */ false);
+      testResults = await testSerializedFirestoreData(testResults, props.serializedFirestoreData);
+      setTestResults(testResults);
       setTestStatus("Complete!");
     }
     asyncTest().catch((e) => {
       console.error("Error encountered during testing: ", e);
       setTestStatus("Errored!");
     });
-  }, []);
+  }, [props.serializedFirestoreData]);
 
   return (
     <ResultsDisplay statusString={testStatus} testResults={testResults} />
