@@ -3,7 +3,6 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "framework-tests/nextjs/*",
-    "framework-tests/angular/*"
+    "framework-tests/*"
   ]
 }

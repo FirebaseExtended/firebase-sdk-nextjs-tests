@@ -5,14 +5,15 @@
   "author": "Firebase <firebase-support@google.com> (https://firebase.google.com/)",
   "license": "Apache-2.0",
   "workspaces": [
-    "packages/*"
+    "framework-tests/*"
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes && rm -rf node_modules",
     "build": "lerna run build",
-    "dave": "lerna run dave --scope='@firebase-sdk-nextjs-tests/nextjs'",
-    "build:nextjs": "lerna run build --scope @firebase-sdk-nextjs-tests/framework-tests/nextjs",
+    "dave": "lerna run dave --scope='test-nextjs'",
+    "setup:nextjs": "lerna run setup --scope test-nextjs",
+    "build:nextjs": "lerna run build --scope test-nextjs",
     "build:angular": "lerna run build --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
     "dev:nextjs": "lerna run dev --scope @firebase-sdk-nextjs-tests/framework-tests/nextjs",
     "serve:angular": "lerna run serve --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
@@ -20,7 +21,7 @@
     "lint:nextjs": "lerna run lint --scope @firebase-sdk-nextjs-tests/framework-tests/nextjs",
     "lint:angular": "lerna run lint --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
     "test": "lerna run test",
-    "test:nextjs": "lerna run test --scope @firebase-sdk-nextjs-tests/framework-tests/nextjs",
+    "test:nextjs": "lerna run test --scope test-nextjs",
     "test:angular": "lerna run test --scope @firebase-sdk-nextjs-tests/framework-tests/angular"
   },
   "devDependencies": {

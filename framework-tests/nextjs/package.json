@@ -1,5 +1,5 @@
 {
-  "name": "@firebase-sdk-nextjs-tests/nextjs",
+  "name": "test-nextjs",
   "version": "0.1.0",
   "private": true,
   "author": "Firebase <firebase-support@google.com> (https://firebase.google.com/)",
@@ -9,8 +9,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "setup": "npx playwright install --with-deps",
     "test": "playwright test",
-    "dave": "@echo hello!"
+    "dave": "echo hello!"
   },
   "dependencies": {
     "firebase": "next",
