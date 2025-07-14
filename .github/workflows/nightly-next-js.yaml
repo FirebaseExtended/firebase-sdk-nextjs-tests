@@ -1,4 +1,4 @@
-# Copyright 2024 Google LLC
+# Copyright 2025 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,65 +12,79 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Firebase JS SDK Nightly
+name: Next.js Package CI
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # Nightly
   pull_request:
     branches:
       - main
+    paths: # Only run if files in these paths change
+      - 'framework-tests/nextjs/**'
+      - '.github/workflows/nightly-js-sdk.yaml'
+      - 'package.json' # Root package.json
+      - 'lerna.json'
+      - 'yarn.lock'
   workflow_dispatch:
 
 jobs:
-  run:
-    name: Execute JS SDK Playwright tests
+  nextjs-tests:
+    name: Next.js E2E Tests
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
+
     - name: Set up Node (20)
       uses: actions/setup-node@v4
       with:
         node-version: 20.x
-        cache: 'npm'
-        cache-dependency-path: yarn.lock
-    - name: Restore cached node_modules
-      uses: actions/cache@v4
-      id: node_modules
-      with:
-        path: "./node_modules"
-        key: node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-    - name: Write Project Config
+        cache: 'yarn'
+        cache-dependency-path: yarn.lock # Root yarn.lock
+
+    - name: Install Monorepo Dependencies
+      run: yarn install --frozen-lockfile
+      working-directory: ./ # Run yarn install from the root
+
+    - name: Write Project Config for Next.js
       env:
         PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
-    - name: Yarn install
-      run: yarn
-    - name: Restore yarn build cache
+      working-directory: ./framework-tests/nextjs
+
+    - name: Restore Next.js build cache
       uses: actions/cache@v4
-      with:      
+      with:
         path: |
-          ~/.npm
-          ${{ github.workspace }}/.next/cache
-        # Generate a new cache whenever packages or source files change.
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-        # If source files changed but packages didn't, rebuild from a prior cache.
+          ${{ github.workspace }}/framework-tests/nextjs/.next/cache
+        # Key uses root yarn.lock and files specific to the nextjs package
+        key: ${{ runner.os }}-nextjs-build-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('framework-tests/nextjs/**/*.js', 'framework-tests/nextjs/**/*.jsx', 'framework-tests/nextjs/**/*.ts', 'framework-tests/nextjs/**/*.tsx') }}
         restore-keys: |
-          ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-
-    - name: Yarn build
-      run: yarn build
+          ${{ runner.os }}-nextjs-build-${{ hashFiles('**/yarn.lock') }}-
+
+    - name: Build Next.js App
+      run: yarn lerna run build --scope @firebase-sdk-nextjs-tests/nextjs
+      working-directory: ./ # Run lerna from the root
+
     - name: Restore cached playwright browsers
       uses: actions/cache@v4
-      with:      
+      with:
         path: ~/.cache/ms-playwright
-        key: playwright-${{ hashFiles('playwright.config.ts') }}
-    - name: Install Playwright browsers
-      run: yarn playwright install --with-deps
-    - name: Launch E2E tests workflow
-      run: yarn test
+        # Key uses the playwright.config.ts from the nextjs package
+        key: playwright-browsers-${{ hashFiles('framework-tests/nextjs/playwright.config.ts') }}
+
+    - name: Install Playwright browsers for Next.js
+      run: npx playwright install --with-deps
+      working-directory: ./framework-tests/nextjs
+
+    - name: Launch Next.js E2E tests
+      run: yarn lerna run test --scope @firebase-sdk-nextjs-tests/nextjs
+      working-directory: ./ # Run lerna from the root
+
     - name: Send email on failure
-      if: failure()
+      if: failure() && github.event_name == 'schedule' # Only send email for scheduled nightly runs
       uses: ./.github/actions/send-email
       with:
         api-key: ${{ secrets.OSS_BOT_MAILGUN_KEY }}

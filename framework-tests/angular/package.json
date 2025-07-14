@@ -1,0 +1,32 @@
+{
+  "name": "@firebase-sdk-nextjs-tests/angular",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "echo \"Angular build script placeholder - implement with Angular CLI or similar\" && exit 0",
+    "test": "echo \"Angular test script placeholder - implement with Karma/Jasmine or Jest\" && exit 0",
+    "lint": "echo \"Angular lint script placeholder - implement with ESLint\" && exit 0"
+  },
+  "dependencies": {
+    "@angular/common": "^17.0.0",
+    "@angular/core": "^17.0.0",
+    "@angular/platform-browser": "^17.0.0",
+    "firebase": "next",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "zone.js": "~0.14.2"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^17.0.0",
+    "@angular/cli": "^17.0.0",
+    "@angular/compiler-cli": "^17.0.0",
+    "@types/jasmine": "~5.1.0",
+    "jasmine-core": "~5.1.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-coverage": "~2.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "typescript": "~5.2.2"
+  }
+}
