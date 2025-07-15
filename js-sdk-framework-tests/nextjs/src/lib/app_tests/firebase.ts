@@ -17,7 +17,12 @@
 
 // App's Firebase configuration
 export const firebaseConfig = {
-  /* Paste project data here.
-   *  This will be stored as a GitHub secret when we have admin access to the repo.
-   */ 
+  apiKey: "AIzaSyBNHCyZ-bpv-WA-HpXTmigJm2aq3z1kaH8",
+  authDomain: "jscore-sandbox-141b5.firebaseapp.com",
+  databaseURL: "https://jscore-sandbox-141b5.firebaseio.com",
+  projectId: "jscore-sandbox-141b5",
+  storageBucket: "jscore-sandbox-141b5.appspot.com",
+  messagingSenderId: "280127633210",
+  appId: "1:280127633210:web:7e6e17fa4011971446c203",
+  measurementId: "G-RV0ETRQ1G9"
 };

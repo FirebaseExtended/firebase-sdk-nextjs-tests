@@ -1,8 +1,8 @@
 {
   "version": "independent",
   "npmClient": "yarn",
-  "useWorkspaces": true,
   "packages": [
-    "framework-tests/*"
-  ]
+    "js-sdk-framework-tests/nextjs"
+  ],
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
