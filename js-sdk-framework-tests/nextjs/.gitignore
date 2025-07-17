@@ -8,6 +8,7 @@ package-lock.json
 
 # next.js
 .next
+next-env.d.ts
 /out/
 
 # production
