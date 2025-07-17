@@ -2,6 +2,7 @@
   "version": "independent",
   "npmClient": "yarn",
   "packages": [
+    "js-sdk-framework-tests/angular",
     "js-sdk-framework-tests/nextjs"
   ],
   "$schema": "node_modules/lerna/schemas/lerna-schema.json"

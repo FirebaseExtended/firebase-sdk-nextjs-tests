@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Next.js Package CI
+name: Firebase JS SDK Nightly Next.js
 
 on:
   schedule:
@@ -21,7 +21,7 @@ on:
     branches:
       - main
     paths: # Only run if files in these paths change
-      - 'framework-tests/nextjs/**'
+      - 'js-sdk-framework-tests/nextjs/**'
       - '.github/workflows/nightly-js-sdk.yaml'
       - 'package.json' # Root package.json
       - 'lerna.json'
@@ -45,43 +45,30 @@ jobs:
         cache-dependency-path: yarn.lock # Root yarn.lock
 
     - name: Install Monorepo Dependencies
-      run: yarn install --frozen-lockfile
+      run: yarn install
       working-directory: ./ # Run yarn install from the root
 
     - name: Write Project Config for Next.js
       env:
         PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
-      working-directory: ./framework-tests/nextjs
-
-    - name: Restore Next.js build cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          ${{ github.workspace }}/framework-tests/nextjs/.next/cache
-        # Key uses root yarn.lock and files specific to the nextjs package
-        key: ${{ runner.os }}-nextjs-build-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('framework-tests/nextjs/**/*.js', 'framework-tests/nextjs/**/*.jsx', 'framework-tests/nextjs/**/*.ts', 'framework-tests/nextjs/**/*.tsx') }}
-        restore-keys: |
-          ${{ runner.os }}-nextjs-build-${{ hashFiles('**/yarn.lock') }}-
-
-    - name: Build Next.js App
-      run: yarn lerna run build --scope @firebase-sdk-nextjs-tests/nextjs
-      working-directory: ./ # Run lerna from the root
+      working-directory: ./js-sdk-framework-tests/nextjs
 
     - name: Restore cached playwright browsers
       uses: actions/cache@v4
       with:
         path: ~/.cache/ms-playwright
         # Key uses the playwright.config.ts from the nextjs package
-        key: playwright-browsers-${{ hashFiles('framework-tests/nextjs/playwright.config.ts') }}
+        key: playwright-browsers-${{ hashFiles('js-sdk-framework-tests/nextjs/playwright.config.ts') }}
 
-    - name: Install Playwright browsers for Next.js
-      run: npx playwright install --with-deps
-      working-directory: ./framework-tests/nextjs
+    - name: Setup Next.js App (Playwright browsers)
+      run: yarn setup:nextjs
+
+    - name: Build Next.js App
+      run: yarn build:nextjs    
 
     - name: Launch Next.js E2E tests
-      run: yarn lerna run test --scope @firebase-sdk-nextjs-tests/nextjs
-      working-directory: ./ # Run lerna from the root
+      run: yarn test:nextjs
 
     - name: Send email on failure
       if: failure() && github.event_name == 'schedule' # Only send email for scheduled nightly runs

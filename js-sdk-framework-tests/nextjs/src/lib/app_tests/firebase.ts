@@ -19,5 +19,5 @@
 export const firebaseConfig = {
    /* Paste project data here.
    *  This will be stored as a GitHub secret when we have admin access to the repo.
-   */ 
+   */
 };
