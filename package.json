@@ -8,19 +8,17 @@
     "js-sdk-framework-tests/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes && rm -rf node_modules",
+
     "setup:nextjs": "lerna run setup --scope js-sdk-framework-tests-nextjs",
     "build:nextjs": "lerna run build --scope js-sdk-framework-tests-nextjs",
-    "build:angular": "lerna run build --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
-    "dev:nextjs": "lerna run dev --scope js-sdk-framework-tests-nextjs",
-    "serve:angular": "lerna run serve --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
-    "lint": "lerna run lint",
-    "lint:nextjs": "lerna run lint --scope js-sdk-framework-tests-nextjs",
-    "lint:angular": "lerna run lint --scope @firebase-sdk-nextjs-tests/framework-tests/angular",
-    "test": "lerna run test",
     "test:nextjs": "lerna run test --scope js-sdk-framework-tests-nextjs",
-    "test:angular": "lerna run test --scope @firebase-sdk-nextjs-tests/framework-tests/angular"
+    "lint:nextjs": "lerna run lint --scope js-sdk-framework-tests-nextjs",
+  
+    "setup:angular": "lerna run setup --scope js-sdk-framework-tests-angular",
+    "build:angular": "lerna run build --scope js-sdk-framework-tests-angular",
+    "test:angular": "lerna run test --scope js-sdk-framework-tests-angular",
+    "lint:angular": "lerna run lint --scope js-sdk-framework-tests-angular"
   },
   "devDependencies": {
     "lerna": "^8.0.0"

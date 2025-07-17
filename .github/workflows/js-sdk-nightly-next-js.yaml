@@ -22,7 +22,7 @@ on:
       - main
     paths: # Only run if files in these paths change
       - 'js-sdk-framework-tests/nextjs/**'
-      - '.github/workflows/nightly-js-sdk.yaml'
+      - '.github/workflows/js-sdk-nightly-next-js.yaml'
       - 'package.json' # Root package.json
       - 'lerna.json'
       - 'yarn.lock'
@@ -30,7 +30,7 @@ on:
 
 jobs:
   nextjs-tests:
-    name: Next.js E2E Tests
+    name: Next.js Tests
     runs-on: ubuntu-latest
     
     steps:
@@ -67,7 +67,7 @@ jobs:
     - name: Build Next.js App
       run: yarn build:nextjs    
 
-    - name: Launch Next.js E2E tests
+    - name: Run Next.js tests
       run: yarn test:nextjs
 
     - name: Send email on failure
@@ -80,7 +80,7 @@ jobs:
         to: ${{ secrets.FIREBASE_NEXTJS_TESTS_GITHUB_EMAILS }}
         subject: 'Nightly build of ${{github.repository}} failed!'
         html: >
-          <b>The nightly workflow to test the Firebase JS SDK failed on: ${{github.repository}}</b>
+          <b>The nightly workflow to test the Firebase JS SDK with Next.js failed on: ${{github.repository}}</b>
           <br /><br />Navigate to the
           <a href="https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/runs/${{github.run_id}}">failed workflow</a>
           to look further into what went wrong.

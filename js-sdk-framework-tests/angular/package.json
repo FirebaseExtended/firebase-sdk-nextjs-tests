@@ -1,32 +1,55 @@
 {
-  "name": "@firebase-sdk-nextjs-tests/angular",
-  "version": "0.1.0",
-  "private": true,
+  "name": "js-sdk-framework-tests-angular",
+  "version": "0.0.0",
   "scripts": {
-    "build": "echo \"Angular build script placeholder - implement with Angular CLI or similar\" && exit 0",
-    "test": "echo \"Angular test script placeholder - implement with Karma/Jasmine or Jest\" && exit 0",
-    "lint": "echo \"Angular lint script placeholder - implement with ESLint\" && exit 0"
+    "setup": "echo done.",
+    "build": "ng build",
+    "test": "echo not-supported-yet",
+    "test:hosted": "ng test",
+    "ng": "ng",
+    "start": "ng serve",
+    "watch": "ng build --watch --configuration development",
+    "serve:ssr:my-new-app": "node dist/my-new-app/server/server.mjs"
   },
+  "prettier": {
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
   "dependencies": {
-    "@angular/common": "^17.0.0",
-    "@angular/core": "^17.0.0",
-    "@angular/platform-browser": "^17.0.0",
-    "firebase": "next",
+    "@angular/common": "^20.1.0",
+    "@angular/compiler": "^20.1.0",
+    "@angular/core": "^20.1.0",
+    "@angular/forms": "^20.1.0",
+    "@angular/platform-browser": "^20.1.0",
+    "@angular/platform-server": "^20.1.0",
+    "@angular/router": "^20.1.0",
+    "@angular/ssr": "^20.1.1",
+    "express": "^5.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.0.0",
-    "@angular/cli": "^17.0.0",
-    "@angular/compiler-cli": "^17.0.0",
+    "@angular/build": "^20.1.1",
+    "@angular/cli": "^20.1.1",
+    "@angular/compiler-cli": "^20.1.0",
+    "@playwright/test": "^1.40.1",
+    "@types/express": "^5.0.1",
     "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.1.0",
+    "@types/node": "^20.17.19",
+    "jasmine-core": "~5.8.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.8.2"
   }
 }

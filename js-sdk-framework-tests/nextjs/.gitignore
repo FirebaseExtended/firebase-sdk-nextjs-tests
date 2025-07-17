@@ -7,7 +7,7 @@ node_modules
 package-lock.json
 
 # next.js
-/.next/
+.next
 /out/
 
 # production
@@ -29,6 +29,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#playwright
 /test-results/
 /playwright-report/
 /playwright/.cache/

@@ -15,13 +15,11 @@
  * limitations under the License.
  */
 
-import { Component } from '@angular/core';
+import { RenderMode, ServerRoute } from '@angular/ssr';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: []
-})
-export class AppComponent {
-  title = 'angular-app';
-}
+export const serverRoutes: ServerRoute[] = [
+  {
+    path: '**',
+    renderMode: RenderMode.Prerender
+  }
+];

@@ -6,9 +6,9 @@ node_modules
 # NPM Lockfiles
 package-lock.json
 
-# next.js
-/.next/
-/out/
+#angular
+dist
+.angular
 
 # production
 /build
