@@ -28,6 +28,8 @@ on:
       - 'yarn.lock'
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
   nextjs-tests:
     name: Next.js Tests
