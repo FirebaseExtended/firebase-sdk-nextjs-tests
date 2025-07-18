@@ -12,65 +12,68 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: Firebase JS SDK Nightly
+name: Firebase JS SDK Nightly Next.js
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * *" # Nightly
   pull_request:
     branches:
       - main
+    paths: # Only run if files in these paths change
+      - 'js-sdk-framework-tests/nextjs/**'
+      - '.github/workflows/js-sdk-nightly-next-js.yaml'
+      - 'package.json' # Root package.json
+      - 'lerna.json'
+      - 'yarn.lock'
   workflow_dispatch:
 
+permissions: read-all
+
 jobs:
-  run:
-    name: Execute JS SDK Playwright tests
+  nextjs-tests:
+    name: Next.js Tests
     runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v4
+
     - name: Set up Node (20)
       uses: actions/setup-node@v4
       with:
         node-version: 20.x
-        cache: 'npm'
-        cache-dependency-path: yarn.lock
-    - name: Restore cached node_modules
-      uses: actions/cache@v4
-      id: node_modules
-      with:
-        path: "./node_modules"
-        key: node_modules-${{ runner.arch }}-${{ runner.os }}-${{ hashFiles('yarn.lock') }}
-    - name: Write Project Config
+        cache: 'yarn'
+        cache-dependency-path: yarn.lock # Root yarn.lock
+
+    - name: Install Monorepo Dependencies
+      run: yarn install
+      working-directory: ./ # Run yarn install from the root
+
+    - name: Write Project Config for Next.js
       env:
         PROJECT_CONFIG: ${{ secrets.PROJECT_CONFIG }}
       run: echo "export const firebaseConfig = $PROJECT_CONFIG;" > src/lib/app_tests/firebase.ts
-    - name: Yarn install
-      run: yarn
-    - name: Restore yarn build cache
-      uses: actions/cache@v4
-      with:      
-        path: |
-          ~/.npm
-          ${{ github.workspace }}/.next/cache
-        # Generate a new cache whenever packages or source files change.
-        key: ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
-        # If source files changed but packages didn't, rebuild from a prior cache.
-        restore-keys: |
-          ${{ runner.os }}-nextjs-${{ hashFiles('yarn.lock') }}-
-    - name: Yarn build
-      run: yarn build
+      working-directory: ./js-sdk-framework-tests/nextjs
+
     - name: Restore cached playwright browsers
       uses: actions/cache@v4
-      with:      
+      with:
         path: ~/.cache/ms-playwright
-        key: playwright-${{ hashFiles('playwright.config.ts') }}
-    - name: Install Playwright browsers
-      run: yarn playwright install --with-deps
-    - name: Launch E2E tests workflow
-      run: yarn test
+        # Key uses the playwright.config.ts from the nextjs package
+        key: playwright-browsers-${{ hashFiles('js-sdk-framework-tests/nextjs/playwright.config.ts') }}
+
+    - name: Setup Next.js App (Playwright browsers)
+      run: yarn setup:nextjs
+
+    - name: Build Next.js App
+      run: yarn build:nextjs    
+
+    - name: Run Next.js tests
+      run: yarn test:nextjs
+
     - name: Send email on failure
-      if: failure()
+      if: failure() && github.event_name == 'schedule' # Only send email for scheduled nightly runs
       uses: ./.github/actions/send-email
       with:
         api-key: ${{ secrets.OSS_BOT_MAILGUN_KEY }}
@@ -79,7 +82,7 @@ jobs:
         to: ${{ secrets.FIREBASE_NEXTJS_TESTS_GITHUB_EMAILS }}
         subject: 'Nightly build of ${{github.repository}} failed!'
         html: >
-          <b>The nightly workflow to test the Firebase JS SDK failed on: ${{github.repository}}</b>
+          <b>The nightly workflow to test the Firebase JS SDK with Next.js failed on: ${{github.repository}}</b>
           <br /><br />Navigate to the
           <a href="https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/runs/${{github.run_id}}">failed workflow</a>
           to look further into what went wrong.

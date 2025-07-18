@@ -1,28 +1,26 @@
 {
-  "name": "next-platform-mvp-tests",
+  "name": "multi-framework-nightly-tests",
   "version": "0.1.0",
   "private": true,
   "author": "Firebase <firebase-support@google.com> (https://firebase.google.com/)",
   "license": "Apache-2.0",
+  "workspaces": [
+    "js-sdk-framework-tests/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "playwright test"
-  },
-  "dependencies": {
-    "firebase": "next",
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
+    "clean": "lerna clean --yes && rm -rf node_modules",
+
+    "setup:nextjs": "lerna run setup --scope js-sdk-framework-tests-nextjs",
+    "build:nextjs": "lerna run build --scope js-sdk-framework-tests-nextjs",
+    "test:nextjs": "lerna run test --scope js-sdk-framework-tests-nextjs",
+    "lint:nextjs": "lerna run lint --scope js-sdk-framework-tests-nextjs",
+  
+    "setup:angular": "lerna run setup --scope js-sdk-framework-tests-angular",
+    "build:angular": "lerna run build --scope js-sdk-framework-tests-angular",
+    "test:angular": "lerna run test --scope js-sdk-framework-tests-angular",
+    "lint:angular": "lerna run lint --scope js-sdk-framework-tests-angular"
   },
   "devDependencies": {
-    "@playwright/test": "^1.40.1",
-    "@types/node": "20.10.4",
-    "@types/react": "latest",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.13",
-    "typescript": "5.3.3"
+    "lerna": "^8.0.0"
   }
 }

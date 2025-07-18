@@ -1,0 +1,29 @@
+{
+  "name": "js-sdk-framework-tests-nextjs",
+  "version": "0.2.0",
+  "private": true,
+  "author": "Firebase <firebase-support@google.com> (https://firebase.google.com/)",
+  "license": "Apache-2.0",
+  "scripts": {
+    "setup": "npx playwright install --with-deps",
+    "build": "next build",
+    "lint": "next lint",
+    "dev": "next dev",
+    "start": "next start",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "firebase": "next",
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.1",
+    "@types/node": "20.10.4",
+    "@types/react": "latest",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13",
+    "typescript": "5.3.3"
+  }
+}
