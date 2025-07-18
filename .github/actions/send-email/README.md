@@ -42,7 +42,7 @@ HTML body of the message.
 
 ```
 - name: Send Email
-  uses: firebase/firebase-sdk-nextjs-tests/.github/actions/send-email
+  uses: firebase/firebase-js-sdk-framework-tests/.github/actions/send-email
   with:
     api-key: ${{ secrets.MAILGUN_API_KEY }}
     domain: ${{ secrets.MAILGUN_DOMAIN }}

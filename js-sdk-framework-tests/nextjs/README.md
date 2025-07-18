@@ -1,5 +1,5 @@
 # Firebase SDK Next JS Tests
-![Status Badge](https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/workflows/nightly-js-sdk.yaml/badge.svg)
+![Status Badge](https://github.com/FirebaseExtended/firebase-js-sdk-framework-tests/actions/workflows/nightly-js-sdk.yaml/badge.svg)
 
 This repository contains automatic nightly tests that exercise the Firebase JS SDK within a Next.JS app environment via the Playwright test framework. 
 

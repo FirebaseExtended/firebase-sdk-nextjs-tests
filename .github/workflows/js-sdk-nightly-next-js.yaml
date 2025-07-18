@@ -84,6 +84,6 @@ jobs:
         html: >
           <b>The nightly workflow to test the Firebase JS SDK with Next.js failed on: ${{github.repository}}</b>
           <br /><br />Navigate to the
-          <a href="https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/runs/${{github.run_id}}">failed workflow</a>
+          <a href="https://github.com/FirebaseExtended/firebase-js-sdk-framework-tests/actions/runs/${{github.run_id}}">failed workflow</a>
           to look further into what went wrong.
       continue-on-error: true

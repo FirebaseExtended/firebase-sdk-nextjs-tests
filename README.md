@@ -1,7 +1,7 @@
 # Firebase JS SDK Framework Tests
-![JS SDK Next.js Tests Status Badge](https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/workflows/js-sdk-nightly-next-js.yaml/badge.svg)
+![JS SDK Next.js Tests Status Badge](https://github.com/FirebaseExtended/firebase-js-sdk-framework-tests/actions/workflows/js-sdk-nightly-next-js.yaml/badge.svg)
 
-![JS SDK Angular Tests Status Badge](https://github.com/FirebaseExtended/firebase-sdk-nextjs-tests/actions/workflows/js-sdk-nightly-angular.yaml/badge.svg)
+![JS SDK Angular Tests Status Badge](https://github.com/FirebaseExtended/firebase-js-sdk-framework-tests/actions/workflows/js-sdk-nightly-angular.yaml/badge.svg)
 
 This repository uses Playwright to execute Firebase JS SDK tests witin both Next.js and Angular environments. The repository is meant to run nightly against the latest upcoming Firebase JS SDK.
 
