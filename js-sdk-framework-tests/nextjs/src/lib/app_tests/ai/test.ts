@@ -25,14 +25,11 @@ import {
   getGenerativeModel,
   GoogleAIBackend
 } from 'firebase/ai';
-import { getAuth, signInAnonymously } from 'firebase/auth';
 import { firebaseConfig } from '@/lib/app_tests/firebase';
 import { OK, FAILED } from '@/lib/app_tests/util';
 
 export type TestResults = {
   initializeAppResult: string,
-  initializeAuthResult: string,
-  signInAnonymouslyResult: string,
   getAIResult: string,
   getGenerativeModelResult: string,
   startChatResult: string,
@@ -41,14 +38,11 @@ export type TestResults = {
   chatSendSecondMessageResult: string,
   chatSecondResponseCheckResult: string,
   getHistoryResult: string,
-  deleteUserResult: string
 };
 
 export function initializeTestResults(): TestResults {
   const testAnalyticsResult: TestResults = {
     initializeAppResult: FAILED,
-    initializeAuthResult: FAILED,
-    signInAnonymouslyResult: FAILED,
     getAIResult: FAILED,
     getGenerativeModelResult: FAILED,
     startChatResult: FAILED,
@@ -57,7 +51,6 @@ export function initializeTestResults(): TestResults {
     chatSendSecondMessageResult: FAILED,
     chatSecondResponseCheckResult: FAILED,
     getHistoryResult: FAILED,
-    deleteUserResult: FAILED
   };
   return testAnalyticsResult;
 }
@@ -104,53 +97,44 @@ export async function testAI(isServer: boolean = false): Promise<TestResults> {
   const firebaseApp = initializeApp(firebaseConfig);
   result.initializeAppResult = OK;
 
-  const auth = getAuth(firebaseApp);
-  result.initializeAuthResult = OK;
-  await signInAnonymously(auth);
-  if (auth.currentUser) {
-    result.signInAnonymouslyResult = OK;
+  result.signInAnonymouslyResult = OK;
 
-    const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
-    result.getAIResult = OK;
+  const ai = getAI(firebaseApp, { backend: new GoogleAIBackend() });
+  result.getAIResult = OK;
 
-    const model = getGenerativeModel(ai, {
-      model: "gemini-2.5-flash",
-      generationConfig: commonGenerationConfig,
-      safetySettings: commonSafetySettings,
-      systemInstruction: commonSystemInstruction
-    });
-    result.getGenerativeModelResult = OK;
+  const model = getGenerativeModel(ai, {
+    model: "gemini-2.5-flash",
+    generationConfig: commonGenerationConfig,
+    safetySettings: commonSafetySettings,
+    systemInstruction: commonSystemInstruction
+  });
+  result.getGenerativeModelResult = OK;
 
-    const chat = model.startChat();
-    result.startChatResult = OK;
+  const chat = model.startChat();
+  result.startChatResult = OK;
 
-    const result1 = await chat.sendMessage(
-      'What is the capital of France?'
-    );
-    result.chatSendFirstMessageResult = OK;
+  const result1 = await chat.sendMessage(
+    'What is the capital of France?'
+  );
+  result.chatSendFirstMessageResult = OK;
 
-    const response1 = result1.response;
-    if (response1.text().length !== 0) {
-      result.chatFirstResponseCheckResult = OK;
-    } 
-
-    const result2 = await chat.sendMessage('And what about Italy?');
-    result.chatSendSecondMessageResult = OK;
-
-    const response2 = result2.response;
-    if (response2.text().length !== 0) {
-      result.chatSecondResponseCheckResult = OK;
-    } 
-
-    const history = await chat.getHistory();
-    if(history.length !== 0) {
-      result.getHistoryResult = OK;
-    }
-    
-    if (auth.currentUser) {
-      await auth.currentUser.delete();
-      result.deleteUserResult = OK;
-    }
+  const response1 = result1.response;
+  if (response1.text().length !== 0) {
+    result.chatFirstResponseCheckResult = OK;
   }
+
+  const result2 = await chat.sendMessage('And what about Italy?');
+  result.chatSendSecondMessageResult = OK;
+
+  const response2 = result2.response;
+  if (response2.text().length !== 0) {
+    result.chatSecondResponseCheckResult = OK;
+  }
+
+  const history = await chat.getHistory();
+  if (history.length !== 0) {
+    result.getHistoryResult = OK;
+  }
+
   return result;
 }

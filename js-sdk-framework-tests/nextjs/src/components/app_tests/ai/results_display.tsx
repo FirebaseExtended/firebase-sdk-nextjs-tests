@@ -20,8 +20,6 @@ export default function ResultsDisplay({ statusString, testResults }) {
     <>
       <h2 title="testStatus">{statusString}</h2>
       <h4 title="initializeAppResult">initializeAppResult: {testResults.initializeAppResult}</h4>
-      <h4 title="initializeAuthResult">initializeAuthResult: {testResults.initializeAuthResult}</h4>
-      <h4 title="signInAnonymouslyResult">signInAnonymouslyResult: {testResults.signInAnonymouslyResult}</h4>
       <h4 title="getAIResult">getAIResult: {testResults.getAIResult}</h4>
       <h4 title="getGenerativeModelResult">getGenerativeModelResult: {testResults.getGenerativeModelResult}</h4>
       <h4 title="startChatResult">startChatResult: {testResults.startChatResult}</h4>
@@ -30,7 +28,6 @@ export default function ResultsDisplay({ statusString, testResults }) {
       <h4 title="chatSendSecondMessageResult">chatSendSecondMessageResult: {testResults.chatSendSecondMessageResult}</h4>
       <h4 title="chatSecondResponseCheckResult">chatSecondResponseCheckResult: {testResults.chatSecondResponseCheckResult}</h4>
       <h4 title="getHistoryResult">getHistoryResult: {testResults.getHistoryResult}</h4>
-      <h4 title="deleteUserResult">deleteUserResult: {testResults.deleteUserResult}</h4>
       <p />
       <Link href="/">Back to test index</Link>
     </>
